@@ -1,0 +1,23 @@
+{% extends "kryptomain/worklayout.html" %}
+
+	{% block content %}
+		Zarządzanie walutami
+	{% endblock content %}
+ 
+	{% block content1 %}
+		Edycja waluty
+	{% endblock content1 %}
+
+	{% block content2 %}
+ 
+		
+		<form action="{% url 'edytujwaluta' idt %}" method="post">
+		{% csrf_token %}
+
+		{{form}}
+		<br>
+		<br>
+		<input type="submit" value="Wyślij" >
+		</form>
+			
+{% endblock content2 %}

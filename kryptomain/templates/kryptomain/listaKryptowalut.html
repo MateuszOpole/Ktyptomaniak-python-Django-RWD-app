@@ -1,0 +1,38 @@
+{% extends "kryptomain/worklayout.html" %}
+
+	{% block content %}
+		Zarządzanie kryptowalutami
+	{% endblock content %}
+ 
+	{% block content1 %}
+		Kryptowaluty w serwisie
+	{% endblock content1 %}
+
+	{% block content2 %}
+ 
+		<a class="text-center"><a class="fh5co-logo" href="{% url 'nowaKryptoWaluta' %}">Dodaj kryptowalute</a>
+		
+		<br>
+		<br>
+		<table  class="table" >
+		
+		<tr>
+			<td>Nazwa kryptowaluty</td>
+			<td>Skrót nazwy</td>
+			<td>Edycja kryptowaluty </td>
+			<td>Usunięcie kryptowaluty</td>
+		</tr>
+		
+		{% for walutZ in walutaZm %}
+		<tr>
+		<td>{{walutZ.nazwa_kryptowaluty}}
+		<td>{{walutZ.kod_kryptowaluty}}
+		<td><a href="{% url 'edytujKryptowaluta' walutZ.id %}" >Edytuj kryptowalute</a>
+		<td><a href="{% url 'usunKryptowaluta' walutZ.id %}" >Usuń kryptowalute</a>
+		</tr>
+		{%endfor%}
+		</table>
+		
+		
+			
+	{% endblock content2 %}

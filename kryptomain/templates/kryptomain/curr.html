@@ -1,0 +1,40 @@
+{% extends "kryptomain/worklayout.html" %}
+
+	{% block content %}
+		Zarządzanie walutami
+	{% endblock content %}
+ 
+	{% block content1 %}
+		Waluty w serwisie
+	{% endblock content1 %}
+
+	{% block content2 %}
+ 
+		<a class="text-center"><a class="fh5co-logo" href="{% url 'nowawal' %}">Dodaj walute</a>
+		<a class="text-center"><a class="fh5co-logo" href="{% url 'nowyPrzelew' %}">Dodaj przelew</a>
+		<br>
+		<br>
+		<div class="table-responsive">
+		<table  class="table" >
+		
+		<tr>
+			<td>Nazwa waluty</td>
+			<td>Skrót nazwy</td>
+			<td>Edycja waluty </td>
+			<td>Usunięcie waluty</td>
+		</tr>
+		
+		{% for walutZ in walutaZm %}
+		<tr>
+		<td>{{walutZ.nazwa_waluty}}
+		<td>{{walutZ.kod_waluty}}
+
+		<td><a href="{% url 'edytujwaluta' walutZ.id %}" >Edytuj walute</a>
+		<td><a href="{% url 'usunwaluta' walutZ.id %}" >Usuń walute</a>
+		</tr>
+		{%endfor%}
+		</table>
+		</div>
+		
+			
+	{% endblock content2 %}

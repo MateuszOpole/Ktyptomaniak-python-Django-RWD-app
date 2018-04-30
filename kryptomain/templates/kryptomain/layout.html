@@ -1,0 +1,273 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+	<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Kryptomaniak</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="Free HTML5 Template by FREEHTML5.CO" />
+	<meta name="keywords" content="free html5, free template, free bootstrap, html5, css3, mobile first, responsive" />
+	<meta name="author" content="FREEHTML5.CO" />
+
+  <!-- 
+	//////////////////////////////////////////////////////
+
+	FREE HTML5 TEMPLATE 
+	DESIGNED & DEVELOPED by FREEHTML5.CO
+		
+	Website: 		http://freehtml5.co/
+	Email: 			info@freehtml5.co
+	Twitter: 		http://twitter.com/fh5co
+	Facebook: 		https://www.facebook.com/fh5co
+
+	//////////////////////////////////////////////////////
+	 -->
+
+  	<!-- Facebook and Twitter integration -->
+	<meta property="og:title" content=""/>
+	<meta property="og:image" content=""/>
+	<meta property="og:url" content=""/>
+	<meta property="og:site_name" content=""/>
+	<meta property="og:description" content=""/>
+	<meta name="twitter:title" content="" />
+	<meta name="twitter:image" content="" />
+	<meta name="twitter:url" content="" />
+	<meta name="twitter:card" content="" />
+
+	<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+	<link rel="shortcut icon" href="{% static 'favicon.ico' %}">
+
+	<link href="https://fonts.googleapis.com/css?family=Karla:400,700" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Playfair+Display:400,700" rel="stylesheet">
+	
+	<!-- Animate.css -->
+	<link rel="stylesheet" href="{% static 'css/animate.css' %}">
+	<!-- Icomoon Icon Fonts-->
+	<link rel="stylesheet" href="{% static 'css/icomoon.css' %}">
+	<!-- Bootstrap  -->
+	<link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+	
+	<!-- Flexslider  -->
+	<link rel="stylesheet" href="{% static 'css/flexslider.css' %}">
+
+	<link rel="stylesheet" href="{% static 'css/style.css' %}">
+	<link rel="stylesheet" href="{% static 'css/arkusz.css' %}">
+ <script>
+            function fn1(){
+                document.getElementById('div1').style.display = "none";
+                document.getElementById('div2').style.display="block";
+            }
+        </script>
+
+	<!-- Modernizr JS -->
+	<script src="{% static 'js/modernizr-2.6.2.min.js' %}"></script>
+	<!-- FOR IE9 below -->
+	<!--[if lt IE 9]>
+	<script src="js/respond.min.js"></script>
+	<![endif]-->
+
+	</head>
+	<body >
+
+	<nav id="fh5co-main-nav" role="navigation">
+
+
+		
+		<a href="#" class="js-fh5co-nav-toggle fh5co-nav-toggle active"><i></i></a>
+		
+		
+		<div id="div1"  onclick="fn1()" style="font-size:50px;">Zaloguj</div>
+		<div id="div2" style="display:none;">
+		<br>
+			<br>
+				<br>
+					
+						
+		<div id="panel" >
+		
+			<form>
+				<label class="lab" for="username" style="text-align:left;">Nazwa użytkownika:</label>
+				<input type="text" id="username" name="username" style="opacity: 0.5;">
+				<br>
+				<label class="lab" for="password"  style="text-align:left;">Hasło:</label>
+				<input type="password" id="password" name="password" style="opacity: 0.5;">
+				<div id="lower">
+					<input type="checkbox"  style="text-align:left;"><label class="check" for="checkbox"  style="text-align:left;" >Zapamiętaj mnie!</label>
+					<input class="przycisk" type="submit" value="Login"  style="text-align:left;">
+				</div>
+			</form>
+		</div>
+		</div>
+		<div class="js-fullheight fh5co-table">
+		
+		
+			<div class="fh5co-table-cell js-fullheight">
+				<ul>
+					<li><a href="{% url 'index' %}">Strona główna</a></li>
+					<li><a href="{% url 'currens' %}">Edycja walut</a></li>
+					<li><a href="{% url 'cryptocurrens' %}">Edycja kryptowalut</a></li>
+					<li><a href="{% url 'informacja' %}">Informacja</a></li>
+					<li><a href="{% url 'kontakt' %}">Kontakt</a></li>
+					
+					
+					
+				</ul>
+				<p class="fh5co-social-icon">
+					<a href="#"><i class="icon-twitter2"></i></a>
+					<a href="#"><i class="icon-facebook2"></i></a>
+					<a href="#"><i class="icon-instagram"></i></a>
+					<a href="#"><i class="icon-dribbble2"></i></a>
+					<a href="#"><i class="icon-youtube"></i></a>
+				</p>
+			</div>
+		</div>
+	</nav>
+	
+	<div id="fh5co-page">
+		<header>
+			<div class="container">
+				<div class="fh5co-navbar-brand">
+					<h1 class="text-center"><a class="fh5co-logo" href="{% url 'index' %}">Kryptomaniak
+					<a href="#" class="js-fh5co-nav-toggle fh5co-nav-toggle"><i></i></a>
+				</div>
+			</div>
+		</header>
+		
+		<aside id="fh5co-hero" class="js-fullheight">
+			<div class="flexslider js-fullheight">
+				<ul class="slides">
+			   	<li style="background-image: url('{% static "images/ssa.jpg "%}')";>
+			   		<div class="overlay-gradient"></div>
+			   		<div class="container">
+			   			<div class="col-md-8 col-md-offset-2 col-md-push-4 js-fullheight slider-text">
+			   				<div class="slider-text-inner">
+			   					<h2>Twój menadżer kryptowalut</h2>
+			   					<span>Witamy w serwisie</span>
+			   				</div>
+			   			</div>
+			   		</div>
+			   	</li>
+			   	<li style="background-image: url('{% static "images/slide_2.jpg "%}')"; >
+			   		<div class="overlay-gradient"></div>
+			   		<div class="container">
+			   			<div class="col-md-8 col-md-offset-2 col-md-push-4 js-fullheight slider-text">
+			   				<div class="slider-text-inner">
+			   					<h2>  Nikt by nie pamiętał o dobrym Samarytaninie, gdyby miał tylko dobre intencje. By przejść do historii, musiał mieć też pieniądze. </h2>
+			   					<span>MARGARET THATCHER</span>
+			   				</div>
+			   			</div>
+			   		</div>
+			   	</li>
+			   	<li style="background-image: url('{% static "images/slide_3.jpg "%}')"; >
+			   		<div class="overlay-gradient"></div>
+			   		<div class="container">
+			   			<div class="col-md-8 col-md-offset-2 col-md-push-4 js-fullheight slider-text">
+			   				<div class="slider-text-inner">
+			   					<h2>Jest tylko jeden sposób, który pozwoli ci utrzymać bogactwo: wydawaj mniej, niż zarabiasz, a różnicę inwestuj.</h2>
+			   					<span>AYN RAND</span>
+			   				</div>
+			   			</div>
+			   		</div>
+			   	</li>
+			  	</ul>
+		  	</div>
+		</aside>
+
+		<div id="fh5co-services-section">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-6 col-md-offset-3 text-center animate-box ">
+						<div class="heading-section">
+							<h2>Nasz serwis</h2>
+							<p>Twój wirtualny portfel kryptowalut</p>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					
+					<div >
+						<div class="services" style="text-align:center";>
+							<div class="icon">
+								<span><i class="icon-browser"></i></span>
+							</div>
+							<div style="font-family: Arial;">
+							{% block content1 %}
+		
+		
+							{% endblock content1 %}
+							</div>
+						</div>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+		
+
+		
+
+		<div id="fh5co-product-section">
+			<div class="container">
+				<div class="row">
+					
+					<p   class="text-center view-button animate-box"   ><a href="#" class="btn btn-primary btn-outline btn-lg">Powrót do gry strony</a></p>
+				</div>
+			</div>
+		</div>
+
+		<div class="fh5co-counters" style="background-image: url(images/hero.jpg);" data-stellar-background-ratio="0.5" id="counter-animate">
+			<div class="fh5co-narrow-content animate-box">
+				<div class="row" >
+					<div class="col-md-4 text-center">
+						<span class="fh5co-counter js-counter" data-from="0" data-to="130" data-speed="5000" data-refresh-interval="50"></span>
+						<span class="fh5co-counter-label">Website</span>
+					</div>
+					<div class="col-md-4 text-center">
+						<span class="fh5co-counter js-counter" data-from="0" data-to="1450" data-speed="5000" data-refresh-interval="50"></span>
+						<span class="fh5co-counter-label">Branding</span>
+					</div>
+					<div class="col-md-4 text-center">
+						<span class="fh5co-counter js-counter" data-from="0" data-to="7497" data-speed="5000" data-refresh-interval="50"></span>
+						<span class="fh5co-counter-label">Product</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<footer>
+			<div id="footer">
+				<div class="container">
+					<div class="row" style="text-align:center";>
+						
+							<p>Copyright 2016 Free Html5 <a href="#">Kryptomaniak</a>. All Rights Reserved. <br>Made with <i class="icon-heart3"></i> by <a href="http://freehtml5.co/" target="_blank">Freehtml5.co</a> / Demo Images: <a href="http://blog.gessato.com/" target="_blank">Gessato</a></p>
+						
+					</div>
+				</div>
+			</div>
+		</footer>
+	
+	</div>
+
+	<!-- jQuery -->
+	<script src="{% static 'js/jquery.min.js' %}"></script>
+	<!-- jQuery Easing -->
+	<script src="{% static 'js/jquery.easing.1.3.js' %}"></script>
+	<!-- Bootstrap -->
+	<script src="{% static 'js/bootstrap.min.js' %}"></script>
+	<!-- Waypoints -->
+	<script src="{% static 'js/jquery.waypoints.min.js' %}"></script>
+	<!-- Counters -->
+	<script src="{% static 'js/jquery.countTo.js' %}"></script>
+	<!-- Flexslider -->
+	<script src="{% static 'js/jquery.flexslider-min.js' %}"></script>
+
+	<!-- Main JS -->
+	<script src="{% static 'js/main.js' %}"></script>
+
+	</body>
+</html>
+
