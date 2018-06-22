@@ -11,13 +11,13 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
 import os
-from reportlab.pdfbase import pdfmetrics
+
+from reportlab.pdfbase import *
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.lib.fonts import addMapping
 from django.conf import settings
 
-pdfmetrics.registerFont(TTFont('Verdana', 'c:\Windows\Fonts\Verdana.ttf','UTF-8'))
-addMapping('Verdana',0,0,'Verdana')
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'reportlab',
+	
 	
     'taggit_selectize',
 
