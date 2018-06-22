@@ -13,7 +13,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import *
 from django.contrib.auth.models import *
 from django.contrib.auth.forms import UserCreationForm
-from reportlab.pdfgen import canvas
+
 import sys
 import json
 from taggit.models import Tag
@@ -407,19 +407,7 @@ def TagIndexView(request,slug):
 	
 	
 def pdfgenview(request):
-		response = HttpResponse(content_type='application/pdf')
-		response['Content-Deposition']='filename="report.pdf"'
-		page=canvas.Canvas(response)
-		page.drawString(10,100, "Hello world of pdf")
-		page.line(10,90,500,90)
-		
-		page.drawString(10,200, "Test polskich znaków: żźćłęŻŹĘŁ")
-		data=Waluta.objects.all()
-		page.drawString(10,250, 'Waluty' +str(data.count()))
-		page.showPage()
-		page.save()
-		
-		return response
+		return render(request,"kryptomain/logowanie.html")
 def logowanie(request):
 		return render(request,"kryptomain/logowanie.html")
 		
