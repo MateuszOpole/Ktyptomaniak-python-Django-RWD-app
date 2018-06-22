@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 import os
 
 from reportlab.pdfbase import *
-from reportlab.pdfbase.ttfonts import TTFont
+
 from reportlab.lib.fonts import addMapping
 from django.conf import settings
 
