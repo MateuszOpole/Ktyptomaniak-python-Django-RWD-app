@@ -1,23 +1,103 @@
 {% extends "kryptomain/worklayout.html" %}
 
+	{% block content3 %}
+		<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  
+	<script>
+            function fn1(){
+                document.getElementById('div1').style.display = "none";
+                document.getElementById('div2').style.display = "inline";
+				document.getElementById('div1').value="0";
+				document.getElementById('div2').value="0".hidden;
+            }
+        </script>
+		<script>
+            function fn2(){
+                document.getElementById('div1').style.display = "inline";
+                document.getElementById('div2').style.display = "none";
+				document.getElementById('div2').value="0";
+				document.getElementById('div1').value="0".hidden;
+            }
+        </script>
+		
+		<script>
+			function walidacjaSelect()
+			{
+				var element = document.getElementById('div1');
+				var element2 = document.getElementById('div2');
+				var element3 = document.getElementById('div3');
+				var element4 = document.getElementById('div4');
+				var liczbaMin = parseFloat(document.getElementById('id_widełki_min').value);
+				var liczbaMax = parseFloat(document.getElementById('id_widełki_max').value);
+				
+				if(element.value=='0' && element2.value=='0')
+					{
+					alert('Wybierz waluta zakupu \n');
+					document.getElementById('div1').focus();
+					return false;
+					}
+				else if(element3.value=='0')
+					{
+					alert('Wybierz walutę, w której chcesz sprzedać kryptowalutę');
+					document.getElementById('div3').focus();
+					return false;
+					}
+				else if(element4.value=='0')
+					{
+					alert('Wybierz zakupioną kryptowalutę');
+					document.getElementById('div4').focus();
+					return false;
+					}	
+				else if(liczbaMax < liczbaMin || liczbaMax == liczbaMin)
+					{
+					alert('Górna granica powiadomienia musi być większa niż dolna granica powiadomienia')
+					return false;
+					}		
+				return true;
+			}
+			
+			
+		</script>
+		
+		<script>
+		$( function() {
+		$( "#datepicker" ).datepicker({
+		changeDay: true,
+		 changeMonth: true,
+		  changeYear: true,
+	 
+		dateFormat: "yy-mm-dd" }).val()
+	  } );
+	  </script>
+  
+		
+	{% endblock content3 %}
+ 
 	{% block content %}
-		Zarządzanie walutami
+		Zarządzanie przelewami
 	{% endblock content %}
  
 	{% block content1 %}
-		Dodanie nowej waluty
+		Dodanie nowej tranzakcji
 	{% endblock content1 %}
 
 	{% block content2 %}
- 
+	<button type="button" onclick="fn2()" class="btn btn-default">Zapłacono walutą</button>
+  <button type="button" onclick="fn1()" class="btn btn-default">Zapłacono kryptowalutą</button>
 		
-		<form action="{% url 'nowyPrzelew' %}" method="post">
+		<form action="{% url 'nowyPrzelew' %}" method="post" onSubmit="return walidacjaSelect() ">
 		{% csrf_token %}
 
-		{{form}}
+		<table class="table"     style="text-align:left;">
+		
+		{{form.as_table}}
+     <!--   <tr><th><label for="id_data_tranzakcji">Data zakupu waluty:</label></th><td><input id="id_data_tranzakcji" name="data_tranzakcji" required="" type="date" value="2012-11-08"></td>	%} -->
+		</table>
 		<br>
-		<br>
-		<input type="submit" value="Wyślij" >
+		
+		<input type="submit" class="btn btn-primary btn-lg" value="Wyślij" >
 		</form>
 			
 {% endblock content2 %}

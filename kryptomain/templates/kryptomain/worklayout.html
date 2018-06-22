@@ -1,5 +1,5 @@
 {% load staticfiles %}
-
+{% load poll_extras %}
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
@@ -9,11 +9,13 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>Kryptomaniak</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="description" content="Free HTML5 Template by FREEHTML5.CO" />
 	<meta name="keywords" content="free html5, free template, free bootstrap, html5, css3, mobile first, responsive" />
 	<meta name="author" content="FREEHTML5.CO" />
-
+	<link href='http://fonts.googleapis.com/css?family=Abhaya+Libre&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Anton&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.18/css/jquery.dataTables.css">
   <!-- 
 	//////////////////////////////////////////////////////
 
@@ -27,6 +29,8 @@
 
 	//////////////////////////////////////////////////////
 	 -->
+
+
 
   	<!-- Facebook and Twitter integration -->
 	<meta property="og:title" content=""/>
@@ -58,30 +62,131 @@
 	<link rel="stylesheet" href="{% static 'css/style.css' %}">
 	<link rel="stylesheet" href="{% static 'css/arkusz.css' %}">
 
-
+	
 	<!-- Modernizr JS -->
 	<script src="{% static 'js/modernizr-2.6.2.min.js' %}"></script>
 	<!-- FOR IE9 below -->
 	<!--[if lt IE 9]>
 	<script src="js/respond.min.js"></script>
 	<![endif]-->
+	<style>
+div.sticky {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  padding: 5px;
+   background-color:#EFEFEF;
+  background-color:#EFEFEF;
+  border-radius: 10px;}
+   
+  
 
+	
+.col-fixed-160{
+    
+    width:180px;
+   
+    position:fixed;
+    
+    z-index:1;
+	margin:10px;
+}
+#col-fixed-160{
+    
+    width:180px;
+   
+    position:fixed;
+     border-radius: 2px;
+  
+    z-index:1;
+	margin-left:15px;
+}
+
+.col-offset-400{
+   
+    z-index:0;
+}
+@media only screen and (max-width: 1300px) {
+#col-fixed-160{
+    
+    display:none;
+    
+}
+		
+</style>
+	{% block content3 %}
+		
+		
+							{% endblock content3 %}
+	
+	
 	</head>
-	<body>
+	<body onload="myFunction()" bgcolor="#A56FF6">
 
-	<nav id="fh5co-main-nav" role="navigation">
+
+<nav id="fh5co-main-nav" role="navigation">
+
+
+		
 		<a href="#" class="js-fh5co-nav-toggle fh5co-nav-toggle active"><i></i></a>
+		
+		
+				
+				<br>
+					<br>
+						<br>
+							
+								
+				<div id="panel" >
+				{% if form.errors %}
+		 <div class="alert alert-danger">
+		  <strong>Uwaga!</strong> Nieprawidłowy login lub hasło.
+		</div>
+			{% endif %}
+				{% if user.is_authenticated %}
+				   <a href="{% url 'logout'%}"style="font-size:20px;color: black;">Cześć {{ user.username }}</a>
+				{% else %}
+				<a href="{% url 'logowanie' %}"style="font-size:20px;color: black;">Zaloguj się</a></li>
+					{% endif %}
+				</div>
+				</div>
+				
+	
 		<div class="js-fullheight fh5co-table">
-			<div class="fh5co-table-cell js-fullheight">
+		
+		
+			<div >
+			{% if user.is_authenticated %}
 				<ul>
+				
+		 
 					<li><a href="{% url 'index' %}">Strona główna</a></li>
-					<li><a href="{% url 'currens' %}">Edycja walut</a></li>
-					<li><a href="{% url 'cryptocurrens' %}">Edycja kryptowalut</a></li>
+					<li><a href="{% url 'Przelewy' %}">Zarządzanie portfelem</a></li>
+					<li><a href="{% url 'blog' %}">Blog</a></li>
+					<li><a href="{% url 'newtemat' %}">Dodaj posta</a></li>
 					<li><a href="{% url 'informacja' %}">Informacja</a></li>
 					<li><a href="{% url 'kontakt' %}">Kontakt</a></li>
 					
 					
+						{% if request.user|has_group:"administrator" %} 
+						<li><a href="{% url 'currens' %}">Edycja walut</a></li>
+					<li><a href="{% url 'cryptocurrens' %}">Edycja kryptowalut</a></li>
+					<li><a href="{% url 'kategoria' %}">Kategorie postów</a></li>
+					<li><a href="{% url 'admin:index' %}">Admin</a></li>
+					{% endif %}
 				</ul>
+				{% else %}
+				<ul>
+				
+		 
+					<li><a href="{% url 'index' %}">Strona główna</a></li>
+					<li><a href="{% url 'informacja' %}">Informacja</a></li>
+					<li><a href="{% url 'kontakt' %}">Kontakt</a></li>
+					
+					
+					
+				</ul>
+				{% endif %}
 				<p class="fh5co-social-icon">
 					<a href="#"><i class="icon-twitter2"></i></a>
 					<a href="#"><i class="icon-facebook2"></i></a>
@@ -93,20 +198,32 @@
 		</div>
 	</nav>
 	
-	<div id="fh5co-page">
+	<div id="fh5co-page"  >
+
 		<header>
-			<div class="container">
-				<div class="fh5co-navbar-brand">
+				
+
+			<div class="container" >
+				<div class="fh5co-navbar-brand  " >
 					<h1 class="text-center"><a class="fh5co-logo"  href="{% url 'index' %}">Kryptomaniak</a></h1>
-					<a href="#" class="js-fh5co-nav-toggle fh5co-nav-toggle"><i></i></a>
+					<div >
+					<a href="#" class="js-fh5co-nav-toggle fh5co-nav-toggle" ><i></i></a>
+					</div>
 				</div>
 			</div>
 		</header>
-		<div id="fh5co-intro-section">
+	<div class="row" style="background-image: linear-gradient(rgba(255,255,255,0.8), rgba(255,255,255,0.8)), url('{% static "images/slide_3.jpg "%}');">
+	
+	<div  id="col-fixed-160" class="col-fixed-160" style="background:#ff847c;opacity: 2; "><a href="https://dc-charts.com/chart_btc.php?ex=11&amp;cu=5" target="_blank"><img style="display:block;width:180px;height:120px;margin:0;padding:0;border:0;" src="https://dc-charts.com/fw/bitbay_btc_pln_31days_1.png" alt="Bitcoin to PLN price on BitBay | dc-charts.com" title="Bitcoin to PLN price on BitBay | dc-charts.com" /></a><img style="display:block;width:180px;height:16px;margin:15px 0 0 0;padding:0;border:0;" src="https://dc-charts.com/fw/ph1.png" alt="price" /><img style="display:block;width:180px;height:1px;margin:0 0 15px 0;padding:0;border:0;" src="https://dc-charts.com/fw/sp1.png" alt="spacer" /><a href="https://dc-charts.com/chart_btc.php?ex=2&amp;cu=0" target="_blank"><img style="display:block;width:180px;height:16px;margin:0;padding:0;border:0;" src="https://dc-charts.com/fw/bitstamp_btc_usd_price_3_1.png" alt="BTC/USD price on Bitstamp" title="Bitstamp : Bitcoin to USD price" /></a><img style="display:block;width:180px;height:1px;margin:0;padding:0;border:0;" src="https://dc-charts.com/fw/sp1.png" alt="spacer" /><a href="https://dc-charts.com/chart_btc.php?ex=20&amp;cu=0" target="_blank"><img style="display:block;width:180px;height:16px;margin:0;padding:0;border:0;" src="https://dc-charts.com/fw/coinbase_btc_usd_price_3_1.png" alt="BTC/USD price on Coinbase" title="Coinbase : Bitcoin to USD price" /></a><img style="display:block;width:180px;height:1px;margin:0;padding:0;border:0;" src="https://dc-charts.com/fw/sp1.png" alt="spacer" /><a href="https://dc-charts.com/chart_btc.php?ex=0&amp;cu=0" target="_blank"><img style="display:block;width:180px;height:16px;margin:0;padding:0;border:0;" src="https://dc-charts.com/fw/okcoin_btc_usd_price_3_1.png" alt="BTC/USD price on OKCoin" title="OKCoin : Bitcoin to USD price" /></a><img style="display:block;width:180px;height:1px;margin:0;padding:0;border:0;" src="https://dc-charts.com/fw/sp1.png" alt="spacer" /><a href="https://dc-charts.com/chart_btc.php?ex=7&amp;cu=0" target="_blank"><img style="display:block;width:180px;height:16px;margin:0;padding:0;border:0;" src="https://dc-charts.com/fw/bitfinex_btc_usd_price_3_1.png" alt="BTC/USD price on Bitfinex" title="Bitfinex : Bitcoin to USD price" /></a><img style="display:block;width:180px;height:1px;margin:0;padding:0;border:0;" src="https://dc-charts.com/fw/sp1.png" alt="spacer" /><a href="https://dc-charts.com/chart_btc.php?ex=12&amp;cu=0" target="_blank"><img style="display:block;width:180px;height:16px;margin:0;padding:0;border:0;" src="https://dc-charts.com/fw/kraken_btc_usd_price_3_1.png" alt="BTC/USD price on Kraken" title="Kraken : Bitcoin to USD price" /></a><img style="display:block;width:180px;height:1px;margin:0;padding:0;border:0;" src="https://dc-charts.com/fw/sp1.png" alt="spacer" /><a href="https://dc-charts.com/chart_btc.php?ex=15&amp;cu=0" target="_blank"><img style="display:block;width:180px;height:16px;margin:0;padding:0;border:0;" src="https://dc-charts.com/fw/gatecoin_btc_usd_price_3_1.png" alt="BTC/USD price on Gatecoin" title="Gatecoin : Bitcoin to USD price" /></a><img style="display:block;width:180px;height:1px;margin:0;padding:0;border:0;" src="https://dc-charts.com/fw/sp1.png" alt="spacer" /><a href="https://dc-charts.com/chart_btc.php?ex=20&amp;cu=1" target="_blank"><img style="display:block;width:180px;height:16px;margin:0;padding:0;border:0;" src="https://dc-charts.com/fw/coinbase_btc_eur_price_3_1.png" alt="BTC/EUR price on Coinbase" title="Coinbase : Bitcoin to EUR price" /></a><img style="display:block;width:180px;height:1px;margin:0;padding:0;border:0;" src="https://dc-charts.com/fw/sp1.png" alt="spacer" /><a href="https://dc-charts.com/chart_btc.php?ex=3&amp;cu=1" target="_blank"><img style="display:block;width:180px;height:16px;margin:0;padding:0;border:0;" src="https://dc-charts.com/fw/bitcurex_btc_eur_price_3_1.png" alt="BTC/EUR price on Bitcurex" title="Bitcurex : Bitcoin to EUR price" /></a><img style="display:block;width:180px;height:1px;margin:0;padding:0;border:0;" src="https://dc-charts.com/fw/sp1.png" alt="spacer" /><a href="https://dc-charts.com/chart_btc.php?ex=3&amp;cu=5" target="_blank"><img style="display:block;width:180px;height:16px;margin:0;padding:0;border:0;" src="https://dc-charts.com/fw/bitcurex_btc_pln_price_3_1.png" alt="BTC/PLN price on Bitcurex" title="Bitcurex : Bitcoin to PLN price" /></a><img style="display:block;width:180px;height:1px;margin:0;padding:0;border:0;" src="https://dc-charts.com/fw/sp1.png" alt="spacer" /><a href="https://dc-charts.com/chart_ltc.php?ex=9&amp;cu=0" target="_blank"><img style="display:block;width:180px;height:16px;margin:0;padding:0;border:0;" src="https://dc-charts.com/fw/bitfinex_ltc_btc_price_3_1.png" alt="LTC/BTC price on Bitfinex" title="Bitfinex : Litecoin to BTC price" /></a><img style="display:block;width:180px;height:1px;margin:0;padding:0;border:0;" src="https://dc-charts.com/fw/sp1.png" alt="spacer" /><a href="https://dc-charts.com/chart_ltc.php?ex=9&amp;cu=1" target="_blank"><img style="display:block;width:180px;height:16px;margin:0;padding:0;border:0;" src="https://dc-charts.com/fw/bitfinex_ltc_usd_price_3_1.png" alt="LTC/USD price on Bitfinex" title="Bitfinex : Litecoin to USD price" /></a><img style="display:block;width:180px;height:1px;margin:0;padding:0;border:0;" src="https://dc-charts.com/fw/sp1.png" alt="spacer" /><a href="https://dc-charts.com/chart_ltc.php?ex=14&amp;cu=1" target="_blank"><img style="display:block;width:180px;height:16px;margin:0;padding:0;border:0;" src="https://dc-charts.com/fw/kraken_ltc_usd_price_3_1.png" alt="LTC/USD price on Kraken" title="Kraken : Litecoin to USD price" /></a><img style="display:block;width:180px;height:1px;margin:0;padding:0;border:0;" src="https://dc-charts.com/fw/sp1.png" alt="spacer" /><a href="https://dc-charts.com/chart_btc.php?ex=12&amp;cu=1" target="_blank"><img style="display:block;width:180px;height:16px;margin:0;padding:0;border:0;" src="https://dc-charts.com/fw/kraken_btc_eur_price_3_1.png" alt="BTC/EUR price on Kraken" title="Kraken : Bitcoin to EUR price" /></a><img style="display:block;width:180px;height:1px;margin:0;padding:0;border:0;" src="https://dc-charts.com/fw/sp1.png" alt="spacer" /><a href="https://dc-charts.com/chart_btc.php?ex=12&amp;cu=3" target="_blank"><img style="display:block;width:180px;height:16px;margin:0;padding:0;border:0;" src="https://dc-charts.com/fw/kraken_btc_gbp_price_3_1.png" alt="BTC/GBP price on Kraken" title="Kraken : Bitcoin to GBP price" /></a><img style="display:block;width:180px;height:1px;margin:0;padding:0;border:0;" src="https://dc-charts.com/fw/sp1.png" alt="spacer" /><a href="https://dc-charts.com/chart_btc.php?ex=12&amp;cu=4" target="_blank"><img style="display:block;width:180px;height:16px;margin:0;padding:0;border:0;" src="https://dc-charts.com/fw/kraken_btc_jpy_price_3_1.png" alt="BTC/JPY price on Kraken" title="Kraken : Bitcoin to JPY price" /></a><img style="display:block;width:180px;height:1px;margin:0;padding:0;border:0;" src="https://dc-charts.com/fw/sp1.png" alt="spacer" /><a href="https://dc-charts.com/chart_ltc.php?ex=14&amp;cu=2" target="_blank"><img style="display:block;width:180px;height:16px;margin:0;padding:0;border:0;" src="https://dc-charts.com/fw/kraken_ltc_eur_price_3_1.png" alt="LTC/EUR price on Kraken" title="Kraken : Litecoin to EUR price" /></a><img style="display:block;width:180px;height:1px;margin:0;padding:0;border:0;" src="https://dc-charts.com/fw/sp1.png" alt="spacer" /><a href="https://dc-charts.com/chart_xrp.php?ex=16&amp;cu=0" target="_blank"><img style="display:block;width:180px;height:16px;margin:0;padding:0;border:0;" src="https://dc-charts.com/fw/poloniex_xrp_btc_price_3_1.png" alt="XRP/BTC price on Poloniex" title="Poloniex : Ripple to BTC price" /></a><img style="display:block;width:180px;height:1px;margin:0;padding:0;border:0;" src="https://dc-charts.com/fw/sp1.png" alt="spacer" /><a href="https://dc-charts.com/chart_eth.php?ex=17&amp;cu=0" target="_blank"><img style="display:block;width:180px;height:16px;margin:0;padding:0;border:0;" src="https://dc-charts.com/fw/bittrex_eth_btc_price_3_1.png" alt="ETH/BTC price on Bittrex" title="Bittrex : Ethereum to BTC price" /></a><img style="display:block;width:180px;height:1px;margin:0;padding:0;border:0;" src="https://dc-charts.com/fw/sp1.png" alt="spacer" /><a href="https://dc-charts.com/chart_eth.php?ex=15&amp;cu=0" target="_blank"><img style="display:block;width:180px;height:16px;margin:0;padding:0;border:0;" src="https://dc-charts.com/fw/gatecoin_eth_btc_price_3_1.png" alt="ETH/BTC price on Gatecoin" title="Gatecoin : Ethereum to BTC price" /></a><img style="display:block;width:180px;height:1px;margin:0;padding:0;border:0;" src="https://dc-charts.com/fw/sp1.png" alt="spacer" /><a href="https://dc-charts.com/chart_btc.php?ex=8&amp;cu=0" target="_blank"><img style="display:block;width:180px;height:16px;margin:0;padding:0;border:0;" src="https://dc-charts.com/fw/cexio_btc_usd_price_3_1.png" alt="BTC/USD price on CEX.IO" title="CEX.IO : Bitcoin to USD price" /></a><img style="display:block;width:180px;height:1px;margin:0;padding:0;border:0;" src="https://dc-charts.com/fw/sp1.png" alt="spacer" /><a href="https://dc-charts.com/chart_btc.php?ex=8&amp;cu=1" target="_blank"><img style="display:block;width:180px;height:16px;margin:0;padding:0;border:0;" src="https://dc-charts.com/fw/cexio_btc_eur_price_3_1.png" alt="BTC/EUR price on CEX.IO" title="CEX.IO : Bitcoin to EUR price" /></a><img style="display:block;width:180px;height:1px;margin:0;padding:0;border:0;" src="https://dc-charts.com/fw/sp1.png" alt="spacer" /><a href="https://dc-charts.com/chart_ltc.php?ex=5&amp;cu=0" target="_blank"><img style="display:block;width:180px;height:16px;margin:0;padding:0;border:0;" src="https://dc-charts.com/fw/cexio_ltc_btc_price_3_1.png" alt="LTC/BTC price on CEX.IO" title="CEX.IO : Litecoin to BTC price" /></a><img style="display:block;width:180px;height:1px;margin:0;padding:0;border:0;" src="https://dc-charts.com/fw/sp1.png" alt="spacer" /><a href="https://dc-charts.com/chart_ltc.php?ex=5&amp;cu=1" target="_blank"><img style="display:block;width:180px;height:16px;margin:0;padding:0;border:0;" src="https://dc-charts.com/fw/cexio_ltc_usd_price_3_1.png" alt="LTC/USD price on CEX.IO" title="CEX.IO : Litecoin to USD price" /></a><img style="display:block;width:180px;height:1px;margin:0;padding:0;border:0;" src="https://dc-charts.com/fw/sp1.png" alt="spacer" /><a href="https://dc-charts.com/chart_ltc.php?ex=13&amp;cu=4" target="_blank"><img style="display:block;width:180px;height:16px;margin:0;padding:0;border:0;" src="https://dc-charts.com/fw/bitbay_ltc_pln_price_3_1.png" alt="LTC/PLN price on BitBay" title="BitBay : Litecoin to PLN price" /></a><a href="https://dc-charts.com/" target="_blank"><img style="display:block;width:180px;height:30px;margin:0;padding:0;border:0;" src="https://dc-charts.com/fw/dc1.png" alt="Bitcoin, altcoins charts | dc-charts.com" title="Bitcoin, altcoins charts | dc-charts.com" /></a></div>
+ 
+ <div class="col-md-12 col-offset-400">
+		<div id="fh5co-intro-section"  >
+		
 			<div class="container">
 				<div class="row">
 					<div class="col-md-8 col-md-offset-2 animate-box text-center">
-						<h2 class="intro-heading">{% block content %}
+						<h2 class="intro-heading" >
+						{% block content %}
 		
 		
 							{% endblock content %}</h2>
@@ -117,7 +234,8 @@
 		</div>
 
 		
-		<div id="fh5co-about-section">
+		<div id="fh5co-about-section" >
+		
 			<div class="container">
 				<div class="row animate-box">
 					<div class="col-md-8 col-md-offset-2 text-center animate-box">
@@ -126,23 +244,36 @@
 		
 		
 							{% endblock content1 %}</h3>
-							<p>{% block content2 %}
+							{% block content2 %}
 		
 		
-							{% endblock content2 %}</p> 
+							{% endblock content2 %}
 						</div>
 					</div>
 				</div>
 				
 				
-			</div>
+			
 		</div>
 	
 
-		
+		</div>
 	
 	</div>
-
+	
+	</div>
+	<footer>
+			<div id="footer">
+				<div class="container">
+					<div class="row" style="text-align:center";>
+						
+							<p>Copyright 2018  <a href="#">Kryptomaniak</a>. Wszystkie prawa zastrzeżone. <br>Wykonanie:<i class="icon-heart3"></i> przez<a href="mailto:mkazior09@gmail.com" target="_blank">Mateusz Kazior</a> </p>
+						
+					</div>
+				</div>
+			</div>
+		</footer>
+</div>
 	<script src="{% static 'js/jquery.min.js' %}"></script>
 	<!-- jQuery Easing -->
 	<script src="{% static 'js/jquery.easing.1.3.js' %}"></script>
@@ -154,9 +285,49 @@
 	<script src="{% static 'js/jquery.countTo.js' %}"></script>
 	<!-- Flexslider -->
 	<script src="{% static 'js/jquery.flexslider-min.js' %}"></script>
-
+	 
 	<!-- Main JS -->
 	<script src="{% static 'js/main.js' %}"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+	
+
+  
+  
+	
+<!-- jQuery UI !-->
+<!-- jQuery UI !-->
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.js"></script>
+<script>
+$(document).ready(function() {
+    $('#example').DataTable( {
+        "language": {
+            "lengthMenu": "Wyświetl _MENU_ rekordów na stronie",
+            "zeroRecords": "Nie ma takich wyników",
+            "info": "Strona _PAGE_ z _PAGES_",
+            "infoEmpty": "Nie ma takich wyników",
+            "infoFiltered": "(przefiltrowano _MAX_ )",
+			 "search":         "Wyszukaj:",
+			"paginate": {
+      "last": "Last page",
+	  "next": "Następna strona",
+	  "previous": "Poprzednia strona"
+    }
+			
+			 
+			
+        }
+    } );
+} );
+</script>
+
+<!-- jQuery UI !-->
+	
+		
+		
 
 	</body>
 </html>

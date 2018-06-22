@@ -19,16 +19,18 @@
 		<tr>
 			<td>Nazwa kryptowaluty</td>
 			<td>Skrót nazwy</td>
+			<td>Informacje dodatkowe</td>
 			<td>Edycja kryptowaluty </td>
 			<td>Usunięcie kryptowaluty</td>
 		</tr>
 		
 		{% for walutZ in walutaZm %}
 		<tr>
-		<td>{{walutZ.nazwa_kryptowaluty}}
-		<td>{{walutZ.kod_kryptowaluty}}
-		<td><a href="{% url 'edytujKryptowaluta' walutZ.id %}" >Edytuj kryptowalute</a>
-		<td><a href="{% url 'usunKryptowaluta' walutZ.id %}" >Usuń kryptowalute</a>
+		<td>{{walutZ.nazwa_kryptowaluty}}</td>
+		<td>{{walutZ.kod_kryptowaluty}}</td>
+		<td>{{walutZ.informacje_dodatkowe}}</td>
+		<td><a href="{% url 'edytujKryptowaluta' walutZ.id %}" >Edytuj kryptowalute</a></td>
+		<td><a href="{% url 'usunKryptowaluta' walutZ.id %}" >Usuń kryptowalute</a></td>
 		</tr>
 		{%endfor%}
 		</table>

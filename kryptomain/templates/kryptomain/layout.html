@@ -1,5 +1,5 @@
 {% load staticfiles %}
-
+{% load poll_extras %}
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
@@ -13,7 +13,8 @@
 	<meta name="description" content="Free HTML5 Template by FREEHTML5.CO" />
 	<meta name="keywords" content="free html5, free template, free bootstrap, html5, css3, mobile first, responsive" />
 	<meta name="author" content="FREEHTML5.CO" />
-
+<link href='http://fonts.googleapis.com/css?family=Abhaya+Libre&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Anton&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
   <!-- 
 	//////////////////////////////////////////////////////
 
@@ -57,13 +58,7 @@
 
 	<link rel="stylesheet" href="{% static 'css/style.css' %}">
 	<link rel="stylesheet" href="{% static 'css/arkusz.css' %}">
- <script>
-            function fn1(){
-                document.getElementById('div1').style.display = "none";
-                document.getElementById('div2').style.display="block";
-            }
-        </script>
-
+ 
 	<!-- Modernizr JS -->
 	<script src="{% static 'js/modernizr-2.6.2.min.js' %}"></script>
 	<!-- FOR IE9 below -->
@@ -72,7 +67,7 @@
 	<![endif]-->
 
 	</head>
-	<body >
+	<body > 
 
 	<nav id="fh5co-main-nav" role="navigation">
 
@@ -81,42 +76,63 @@
 		<a href="#" class="js-fh5co-nav-toggle fh5co-nav-toggle active"><i></i></a>
 		
 		
-		<div id="div1"  onclick="fn1()" style="font-size:50px;">Zaloguj</div>
-		<div id="div2" style="display:none;">
+		
 		<br>
 			<br>
 				<br>
 					
 						
 		<div id="panel" >
+		{% if form.errors %}
+ <div class="alert alert-danger">
+  <strong>Uwaga!</strong> Nieprawidłowy login lub hasło.
+</div>
+	{% endif %}
+		{% if user.is_authenticated %}
+		   <a href="{% url 'logout'%}"style="font-size:20px;color: black;">Cześć {{ user.username }}</a>
+		{% else %}
+		<a href="{% url 'logowanie' %}"style="font-size:20px;;"class="btn btn-primary btn-xs">Zaloguj się</a><span>&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+		</span> <a href="{% url 'rejestracja' %}"style="font-size:20px;"class="btn btn-primary btn-xs">Utwórz konto</a>
+			{% endif %}
+		</div>
+		</div>
 		
-			<form>
-				<label class="lab" for="username" style="text-align:left;">Nazwa użytkownika:</label>
-				<input type="text" id="username" name="username" style="opacity: 0.5;">
-				<br>
-				<label class="lab" for="password"  style="text-align:left;">Hasło:</label>
-				<input type="password" id="password" name="password" style="opacity: 0.5;">
-				<div id="lower">
-					<input type="checkbox"  style="text-align:left;"><label class="check" for="checkbox"  style="text-align:left;" >Zapamiętaj mnie!</label>
-					<input class="przycisk" type="submit" value="Login"  style="text-align:left;">
-				</div>
-			</form>
-		</div>
-		</div>
+	
 		<div class="js-fullheight fh5co-table">
 		
 		
-			<div class="fh5co-table-cell js-fullheight">
+			<div >
+			{% if user.is_authenticated %}
 				<ul>
+				
+		 
 					<li><a href="{% url 'index' %}">Strona główna</a></li>
-					<li><a href="{% url 'currens' %}">Edycja walut</a></li>
+					<li><a href="{% url 'Przelewy' %}">Zarządzanie portfelem</a></li>
+					<li><a href="{% url 'blog' %}">Blog</a></li>
+					<li><a href="{% url 'newtemat' %}">Dodaj posta</a></li>
+					<li><a href="{% url 'informacja' %}">Informacja</a></li>
+					<li><a href="{% url 'kontakt' %}">Kontakt</a></li>
+					
+					
+						{% if request.user|has_group:"administrator" %} 
+						<li><a href="{% url 'currens' %}">Edycja walut</a></li>
 					<li><a href="{% url 'cryptocurrens' %}">Edycja kryptowalut</a></li>
+					<li><a href="{% url 'kategoria' %}">Kategorie postów</a></li>
+					<li><a href="{% url 'admin:index' %}">Admin</a></li>
+					{% endif %}
+				</ul>
+				{% else %}
+				<ul>
+				
+		 
+					<li><a href="{% url 'index' %}">Strona główna</a></li>
 					<li><a href="{% url 'informacja' %}">Informacja</a></li>
 					<li><a href="{% url 'kontakt' %}">Kontakt</a></li>
 					
 					
 					
 				</ul>
+				{% endif %}
 				<p class="fh5co-social-icon">
 					<a href="#"><i class="icon-twitter2"></i></a>
 					<a href="#"><i class="icon-facebook2"></i></a>
@@ -134,6 +150,14 @@
 				<div class="fh5co-navbar-brand">
 					<h1 class="text-center"><a class="fh5co-logo" href="{% url 'index' %}">Kryptomaniak
 					<a href="#" class="js-fh5co-nav-toggle fh5co-nav-toggle"><i></i></a>
+					{% if form.errors %}
+					<br>
+ <br>
+ <div class="alert alert-danger">
+ 
+  <strong>Uwaga!</strong> Nieprawidłowy login lub hasło.
+</div>
+	{% endif %}
 				</div>
 			</div>
 		</header>
@@ -220,20 +244,20 @@
 			</div>
 		</div>
 
-		<div class="fh5co-counters" style="background-image: url(images/hero.jpg);" data-stellar-background-ratio="0.5" id="counter-animate">
+		<div class="fh5co-counters" style="background-image: url('{% static "images/hero.jpg "%}')" data-stellar-background-ratio="0.5" id="counter-animate">
 			<div class="fh5co-narrow-content animate-box">
 				<div class="row" >
 					<div class="col-md-4 text-center">
-						<span class="fh5co-counter js-counter" data-from="0" data-to="130" data-speed="5000" data-refresh-interval="50"></span>
-						<span class="fh5co-counter-label">Website</span>
+						<span class="fh5co-counter" > {{userCount}}</span>
+						<span class="fh5co-counter-label">Użytkowników</span>
 					</div>
 					<div class="col-md-4 text-center">
-						<span class="fh5co-counter js-counter" data-from="0" data-to="1450" data-speed="5000" data-refresh-interval="50"></span>
-						<span class="fh5co-counter-label">Branding</span>
+						<span class="fh5co-counter " >{{postCount}}</span>
+						<span class="fh5co-counter-label">Postów</span>
 					</div>
 					<div class="col-md-4 text-center">
-						<span class="fh5co-counter js-counter" data-from="0" data-to="7497" data-speed="5000" data-refresh-interval="50"></span>
-						<span class="fh5co-counter-label">Product</span>
+						<span class="fh5co-counter"  >{{przelewCount}}</span>
+						<span class="fh5co-counter-label">Przelewów</span>
 					</div>
 				</div>
 			</div>
@@ -243,7 +267,7 @@
 				<div class="container">
 					<div class="row" style="text-align:center";>
 						
-							<p>Copyright 2016 Free Html5 <a href="#">Kryptomaniak</a>. All Rights Reserved. <br>Made with <i class="icon-heart3"></i> by <a href="http://freehtml5.co/" target="_blank">Freehtml5.co</a> / Demo Images: <a href="http://blog.gessato.com/" target="_blank">Gessato</a></p>
+							<p>Copyright 2018  <a href="#">Kryptomaniak</a>. Wszystkie prawa zastrzeżone. <br>Wykonanie:<i class="icon-heart3"></i> przez<a href="mailto:mkazior09@gmail.com" target="_blank">Mateusz Kazior</a> </p>
 						
 					</div>
 				</div>

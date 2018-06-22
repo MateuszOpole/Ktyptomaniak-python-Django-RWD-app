@@ -1,40 +1,105 @@
 {% extends "kryptomain/worklayout.html" %}
-
+{% load poll_extras %}
 	{% block content %}
 		Zarządzanie walutami
 	{% endblock content %}
  
+ {% block content3 %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"> </script>
+<!-- jQuery UI !-->
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+ <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+ <script src="https://cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.10.10/js/dataTables.bootstrap.min.js" ></script>
+        <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<script>
+function fn1(){
+                $('name').data().autocomplete.term = null;
+               
+            }
+
+
+  $(function() {
+    $("#name").autocomplete({
+      source: "/api/",
+      select: function( event, ui ) { 
+            valueJson = ui.item.value;
+			
+		
+			window.location.href=valueJson;
+			
+      },
+	  close: function(event, ui)  {
+      // Close event fires when selection options closes
+      $('input')[0].value = ""; // Clear the input field 
+      },
+      minLength: 2,
+    });
+  });
+
+  function AutoCompleteSelectHandler(event, ui)
+  {
+    var selectedObj = event.item;
+  }
+ 
+ 
+</script>
+  <script>
+            $(document).ready( function () {
+                $('#example').dataTable( {
+                    "dom": 'T<"clear">lfrtip',
+                  }
+                });
+            });
+        </script>
+	{% endblock content3 %}
 	{% block content1 %}
 		Waluty w serwisie
 	{% endblock content1 %}
 
 	{% block content2 %}
- 
-		<a class="text-center"><a class="fh5co-logo" href="{% url 'nowawal' %}">Dodaj walute</a>
-		<a class="text-center"><a class="fh5co-logo" href="{% url 'nowyPrzelew' %}">Dodaj przelew</a>
-		<br>
-		<br>
-		<div class="table-responsive">
-		<table  class="table" >
-		
-		<tr>
-			<td>Nazwa waluty</td>
-			<td>Skrót nazwy</td>
-			<td>Edycja waluty </td>
-			<td>Usunięcie waluty</td>
-		</tr>
-		
-		{% for walutZ in walutaZm %}
-		<tr>
-		<td>{{walutZ.nazwa_waluty}}
-		<td>{{walutZ.kod_waluty}}
+	
+		{% if user.is_authenticated %}
+			{% if request.user|has_group:"administrator" %} 
+				<a class="text-center"><a class="fh5co-logo" href="{% url 'nowawal' %}">Dodaj walute</a>
+				
+				<br>
+				
+				
+				<label for="name">Wyszukiwarka waluty: </label>
+				
+				<input type="text" id="name" name="name"  class="form-control">     
+				<br>
+				<br>
+				<table id="example" class="table table-bordered table-striped bootstrap-datatable" cellspacing="0" width="100%">
+				<thead class="thead-dark">
+				
+				<tr>
+					<td>Nazwa waluty</td>
+					<td>Skrót nazwy</td>
+					<td>Edycja waluty </td>
+					<td>Usunięcie waluty</td>
+				</tr>
+				</thead>
+				 <tbody>
+				{% for walutZ in walutaZm %}
+				<tr>
+				<td>{{walutZ.nazwa_waluty}}
+				<td>{{walutZ.kod_waluty}}
 
-		<td><a href="{% url 'edytujwaluta' walutZ.id %}" >Edytuj walute</a>
-		<td><a href="{% url 'usunwaluta' walutZ.id %}" >Usuń walute</a>
-		</tr>
-		{%endfor%}
-		</table>
-		</div>
-		
+				<td><a href="{% url 'edytujwaluta' walutZ.id %}" >Edytuj walute</a>
+				<td><a href="{% url 'usunwaluta' walutZ.id %}" >Usuń walute</a>
+				</tr>
+				{%endfor%}
+				  </tbody>
+				</table>
+				
+				{% else %}
+		Nie posiadasz uprawnień. Przepraszamy.
+			{% endif %}
+		{% else %}
+		Nie posiadasz uprawnień. Przepraszamy.
+		{% endif %}
 			
 	{% endblock content2 %}

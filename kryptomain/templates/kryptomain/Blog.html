@@ -1,0 +1,117 @@
+{% extends "kryptomain/worklayout.html" %}
+{% load staticfiles %}
+{% load poll_extras %}
+{% block content3 %}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"> </script>
+<!-- jQuery UI !-->
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+ 
+<script>
+
+
+
+  $(function() {
+   
+    $("#szukaj").autocomplete({
+	
+      source: "/apiPost/",
+     
+	  close: function(event, ui)  {
+      // Close event fires when selection options closes
+     
+	   
+      },
+      minLength: 2,
+    });
+  });
+
+  function AutoCompleteSelectHandler(event, ui)
+  {
+    var selectedObj = event.item;
+  }
+  </script>
+
+{% endblock content3 %}
+	{% block content %}
+		O tym się mówi
+	{% endblock content %}
+ 
+	{% block content1 %}
+	Czyli co w świecie piszczy
+		
+		
+	{% endblock content1 %}
+
+	{% block content2 %}
+ 
+
+		
+		<br>
+		<br>
+	
+		
+			
+					<div class="content container" >
+					
+		<div class="row" >
+		
+						<div class="col-md-8" >
+						<div style=" width:100%;font-family:arial;background-image: linear-gradient(rgba(255,255,255,0.8), rgba(255,255,255,0.8)), url('{% static "images/img-4.jpg "%}'); border-radius: 25px;">
+						<div class="sticky">
+						<form action="{% url 'blogszukaj' %}" method="post" style="font-size:13px; color:#888888; border-radius: 25px;"  >
+						{% csrf_token %}
+						
+									<input type="text" class="form-control glyphicon glyphicon-search" name="szukaj" id="szukaj" placeholder="Szukaj">Dział
+									<select style="border:2px solid #FFFFFF;" name="kategoria" id="kategoria"  placeholder="Szukaj">
+									<option value="wszystkie" >Ogólne</option>
+									{% for kategoriaf in KategoriaZM %}
+										<option value="{{kategoriaf.id}}">{{kategoriaf.nazwa_kategorii}}</option>
+										
+									{% endfor %}
+										
+									</select>
+									<input type="submit"   class="btn btn-default btn-xs" value="Szukaj" />
+									{% for tbz in tb %}
+									dwa
+								{% endfor %}
+						
+					</form>
+				</div>
+					{% for PostZ in PostZM %}
+						{% for kategoriaZ in KategoriaZM %}
+
+				
+							{%if kategoriaZ.id == PostZ.idkategorii_id %}
+								<div class="post" >
+								
+									<div style="text-align: LEFT; color: red;">
+										<h1><a href="{% url 'blogPost' PostZ.id %}" style="text-align: right">{{ PostZ.nazwa_postu }}</a></h1>
+										</div>
+										<div style="text-align:justify">
+											<p>{{ PostZ.text|truncatewords:50 }}</p>
+										</div>
+									<div style="text-align: LEFT; font-size: 13px">
+										<p style="text-align: LEFT; font-size: 13px;">Publikacja: {{PostZ.data_wpisu|date:"d m Y | H:i:s" }}, 
+										Autor: <a href="{% url 'blogUser' PostZ.ID_autora  %}" >{{PostZ.ID_autora}}</a>,
+										{{kategoriaZ.nazwa_kategorii }},
+										{% for tag in PostZ.tags.all %}
+										<a href="{% url 'tagged' tag.slug  %}" style="font-size: 13px;" class="label label-primary" id="glyphicon glyphicon-plus">{{ tag.name }}</a>
+											{% empty %}
+												<li>No Tags</li>
+										{% endfor %}
+										<span class="glyphicon glyphicon-comment" aria-hidden="true">{{PostZ.komentarz_set.all|length}}</span>
+										</p>
+									</div>
+								</div>
+							{% endif %}
+						{% endfor %}
+					{% endfor %}
+		</div>
+				</div>
+			</div>
+		</div>
+				
+			
+	{% endblock content2 %}

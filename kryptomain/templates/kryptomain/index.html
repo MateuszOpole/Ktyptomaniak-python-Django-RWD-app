@@ -2,12 +2,28 @@
  
 {% block content1 %}
  
-		<b>Hello</b> <i>world</i>
+		<b>Witaj</b> <i>w aplikacji</i>
 		</br>
-		Nice to see you again!
+		<table  class="table" >
+		
+
+			<td>Obsługujemy następujące kryptowaluty</td>
+		
+			
+		</tr>
+		
+		{% for walutZ in walutaZm %}
+		<tr>
+		
+		<td>{{walutZ.kod_kryptowaluty}}
+		</tr>
+		{%endfor%}
+		</table>
 			</br>
 		Current date is: {{datetime}}.
 			</br>
 			django version is: {{ver}}
+			
+
 			
 {% endblock content1 %}

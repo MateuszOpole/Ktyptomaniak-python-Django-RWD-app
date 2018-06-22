@@ -12,7 +12,7 @@
 *
 * ======================================================= */
 body {
-  font-family: "Karla", Arial, sans-serif;
+  font-family: 'Abhaya Libre', sans-serif;
   line-height: 1.8;
   font-size: 20px;
   background: #f0f0f0;
@@ -43,6 +43,7 @@ a {
   -webkit-transition: 0.5s;
   -o-transition: 0.5s;
   transition: 0.5s;
+  
 }
 a:hover {
   text-decoration: underline;
@@ -54,10 +55,10 @@ a:focus, a:active {
 
 p, span {
   margin-bottom: 1.5em;
-  font-size: 18px;
+  font-size: 21px;
   color: #727272;
   font-weight: 300;
-  font-family: "Karla", Arial, sans-serif;
+  font-family: 'Abhaya Libre', sans-serif;
 }
 
 span {
@@ -247,7 +248,7 @@ h1, h2, h3, h4, h5, h6 {
 .btn {
   margin-right: 4px;
   margin-bottom: 4px;
-  font-family: "Karla", Arial, sans-serif;
+ font-family: 'Abhaya Libre', sans-serif;
   font-size: 16px;
   font-weight: 400;
   -webkit-transition: 0.5s;

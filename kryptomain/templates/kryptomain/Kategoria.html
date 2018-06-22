@@ -1,0 +1,87 @@
+{% extends "kryptomain/worklayout.html" %}
+{% load poll_extras %}
+	{% block content %}
+		Zarządzanie walutami
+	{% endblock content %}
+ 
+ {% block content3 %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"> </script>
+<!-- jQuery UI !-->
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+ 
+<script>
+
+
+
+  $(function() {
+   
+    $("#id_nazwa_kategorii").autocomplete({
+	
+      source: "/apikategoria/",
+     
+	  close: function(event, ui)  {
+      // Close event fires when selection options closes
+     
+	   
+      },
+      minLength: 2,
+    });
+  });
+
+  function AutoCompleteSelectHandler(event, ui)
+  {
+    var selectedObj = event.item;
+  }
+
+</script>
+	{% endblock content3 %}
+	{% block content1 %}
+		Moderowanie kategoriami postów
+	{% endblock content1 %}
+
+	{% block content2 %}
+	
+		{% if user.is_authenticated %}
+			{% if request.user|has_group:"administrator" %} 
+				
+				
+				<div class="table-responsive">
+				<form action="{% url 'kategoria' %}" method="post">
+					{% csrf_token %}
+
+					<label for="id_nazwa_kategorii">Nazwa kategorii:</label>
+					<input id="id_nazwa_kategorii" placeholder="Wpisz kategorię", maxlength="70" name="nazwa_kategorii" style="width: 50%; border:2px solid #CCCCCC; " type="text" required />
+
+				<input type="submit" class="btn btn-info" id="glyphicon glyphicon-plus" value="+" />
+				
+				
+				</div>
+				<br>
+				<br>
+				<table  class="table" style="font-family: Times New Roman" >
+				
+				<tr>
+					<td font face="verdana">Nazwa kategorii</td>
+					<td font face="verdana"  color="green">Edycja waluty </td>
+					<td>Usunięcie waluty</td>
+				</tr>
+				
+				{% for kategoriaZ in kategoriaZm %}
+				<tr>
+				<td>{{kategoriaZ.nazwa_kategorii}}
+
+				<td><a href="{% url 'edytujkategoria' kategoriaZ.id %}" >Edytuj kategorię</a>
+				<td><a href="{% url 'deletekategoria' kategoriaZ.id %}" >Usuń kategorię</a>
+				</tr>
+				{%endfor%}
+				</table>
+				</div>
+				{% else %}
+		Nie posiadasz uprawnień. Przepraszamy.
+			{% endif %}
+		{% else %}
+		Nie posiadasz uprawnień. Przepraszamy.
+		{% endif %}
+			
+	{% endblock content2 %}

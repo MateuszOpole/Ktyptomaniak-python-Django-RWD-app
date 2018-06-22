@@ -1,0 +1,166 @@
+{% extends "kryptomain/worklayout.html" %}
+{% block content3 %}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"> </script>
+<!-- jQuery UI !-->
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+ 
+<script>
+
+
+
+  $(function() {
+   
+    $("#szukaj").autocomplete({
+	
+      source: "/apiPost/",
+     
+	  close: function(event, ui)  {
+      // Close event fires when selection options closes
+     
+	   
+      },
+      minLength: 2,
+    });
+  });
+
+  function AutoCompleteSelectHandler(event, ui)
+  {
+    var selectedObj = event.item;
+  }
+  </script>
+  
+
+{% endblock content3 %}
+	{% block content %}
+		O tym się mówi
+	{% endblock content %}
+ 
+	{% block content1 %}
+		Czyli co w świecie piszczy
+		
+		
+	{% endblock content1 %}
+
+	{% block content2 %}
+ 
+
+		
+		<br>
+		<br>
+	
+		
+			
+					<div class="content container" >
+					
+		<div class="row" >
+		
+						<div class="col-sm-8" >
+						<div style="background-color:#ECECEC; width:100%;border-radius: 25px;">
+						<div class="sticky">
+									
+						<form action="{% url 'blogszukaj' %}" method="post" >
+						{% csrf_token %}
+						
+									<input  type="text" class="form-control glyphicon glyphicon-search" name="szukaj" id="szukaj" placeholder="Szukaj">Dział
+									<select style="font-family: Times New Roman" name="kategoria" id="kategoria"  placeholder="Szukaj">
+									<option value="wszystkie" >Ogólne</option>
+									{% for kategoriaf in KategoriaZM %}
+										<option value="{{kategoriaf.id}}">{{kategoriaf.nazwa_kategorii}}</option>
+										
+									{% endfor %}
+										
+									</select>
+									<input type="submit"   class="btn btn-default btn-xs" value="Szukaj" />
+									{% for tbz in tb %}
+									dwa
+								{% endfor %}
+						
+					</form>
+				</div>
+					
+						{% for kategoriaZ in KategoriaZM %}
+
+				
+							{%if kategoriaZ.id == PostZM.idkategorii_id %}
+								<div class="post">
+								
+									<div style="text-align: LEFT; color: red;">
+										<h1><a href="{% url 'blogPost' PostZM.id %}" style="text-align: right">{{ PostZM.nazwa_postu }}</a></h1>
+										</div >
+										<div style="text-align:justify">
+											<p>{{ PostZM.text|linebreaks }}</p>
+										</div>
+											
+										
+									<div style="text-align: LEFT; font-size: 13px">
+										<p style="text-align: LEFT; font-size: 13px">Publikacja: {{PostZM.data_wpisu|date:"d m Y | H:i:s" }},	
+										Autor: <a href="{% url 'blogUser' PostZM.ID_autora  %}" >{{PostZM.ID_autora}}</a>,
+										{{kategoriaZ.nazwa_kategorii }},
+										{% for tag in PostZM.tags.all %}
+										<a href="{% url 'tagged' tag.slug  %}" class="label label-primary" id="glyphicon glyphicon-plus" style="font-size: 13px;" >{{ tag.name }}</a>
+											{% empty %}
+												<li>No Tags</li>
+											
+										{% endfor %}
+										
+										</p>
+											
+										</div>
+								</div>
+							{% endif %}
+						{% endfor %}
+						<form action="{%  url 'blogPost' PostZM.id %}" method="post">
+											{% csrf_token %}
+
+											<p><label for="id_textcom">Dyskusja:</label> 
+											<i class="fas fa-comment-alt" aria-hidden="true" style="padding-left: 5px;"></i>
+											<textarea  minlength="1" maxlength="300" class="form-control" cols="40" id="id_textcom" name="textcom" placeholder="Wpisz treść komentarza" rows="5" style="width: 70% ; margin-left:15%;margin-right:15%" required></textarea></p>
+											<input type="submit" class="btn btn-primary btn-sm" value="Wyślij" >
+		
+											</form>
+				
+		
+		</div>
+		
+		
+				</div>
+			</div>
+			<div class="row" >
+		
+						<div class="col-sm-8" >
+						<div style=" width:100%;border-radius: 25px">
+							{% for KomentarzZ in KomentarzZm %}
+
+				
+						
+								<div class="post" style="border:2px solid #FFFFFF;border-radius: 1px;background-color:#ECECEC;">
+								
+									<div style="text-align: LEFT; font-size: 13px;">
+									
+										 <a href="{% url 'blogUser' KomentarzZ.autor  %}" >{{KomentarzZ.autor}}</a>,
+										{{KomentarzZ.data_wpisu|date:"d m Y | H:i:s"  }},
+										
+										
+										
+											
+										</div>
+										<div style="text-align:justify">
+											<p>{{ KomentarzZ.textcom|linebreaks }}</p>
+										</div>
+											
+										
+									
+								</div>
+							
+						{% endfor %}
+						</div>
+		
+		
+				</div>
+			</div>
+		</div>
+				
+			
+	{% endblock content2 %}
