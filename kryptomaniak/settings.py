@@ -82,6 +82,10 @@ WSGI_APPLICATION = 'kryptomaniak.wsgi.application'
 import dj_database_url
 DEBUG = os.environ.get('DEBUG', False)
 DATABASES = { 'default': dj_database_url.config() }
+
+DATABASES = {
+    'default': {'ENGINE': 'django.db.backends.postgresql_psycopg2'}
+}
 db_from_env=dj_database_url.config()
 DATABASES['default'].update(db_from_env)
     
