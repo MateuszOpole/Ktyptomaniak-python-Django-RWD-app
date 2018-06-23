@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 
 import os
 
-
+import psycopg2
 from django.conf import settings
 
 
@@ -80,21 +80,12 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'kryptomaniak.wsgi.application'
 
-
+import dj_database_url
+db_from_env = dj_database_url.config()
+DATABASES['default'].update(db_from_env)
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'qykdocmc',
-        'USER': 'qykdocmc',
-        'PASSWORD': '5XruP3E3wQER-AVt-39iqzA2Y2V6p0Su',
-        'HOST': 'dumbo.db.elephantsql.com',
-        # Or an IP Address that your DB is hosted on
-
-    }
-}
 
 
 # Password validation
