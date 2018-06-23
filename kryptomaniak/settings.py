@@ -81,7 +81,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'kryptomaniak.wsgi.application'
 
 import dj_database_url
-DEBUG = config('DEBUG', default=False, cast=bool)
+
 DATABASES = {
     'default': dj_database_url.config(
         default=config('DATABASE_URL')
