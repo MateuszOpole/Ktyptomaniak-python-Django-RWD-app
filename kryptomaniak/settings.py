@@ -19,7 +19,10 @@ from django.conf import settings
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-STATIC_ROOT = os.path.join(BASE_DIR, "static")
+STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
+STATICFILES_DIRS = (
+    os.path.join(PROJECT_ROOT, 'static'),
+)
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
@@ -30,7 +33,7 @@ SECRET_KEY = '3uku#*7h8r4(hqaya+^j9!u61j_#l2wqj%1fk4ulagyuz!sf@k'
 DEBUG = False
 
 ALLOWED_HOSTS = ['*']
-
+STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
 # Application definition
 
