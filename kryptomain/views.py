@@ -1,3 +1,8 @@
+# -*- coding: utf-8 -*-
+import sys
+
+
+
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.utils import timezone
@@ -39,7 +44,7 @@ def index(request):
 	przelewCount=Przelew.objects.all().count()
 	datetimenow = timezone.now()
 	ver=sys.version
-	
+
 	context={'walutaZm':data,
 	'ver':ver,
 	'datetimenow':datetimenow,
@@ -56,9 +61,9 @@ def Kontakt(request):
     return render(request, "kryptomain/contact.html")
 
 
-	
+
 # waluty
-	
+
 def waluty (request):
 	data = Waluta.objects.all()
 	context={
@@ -70,12 +75,12 @@ def walutaNowa (request):
 	if request.method == "POST":
 		form=WalutaForm(request.POST)
 		if form.is_valid():
-				
+
 				"""c=Waluta()
 				c.nazwa_waluty = form.cleaned_data['nazwa_waluty']
 				c.kod_waluty = form.cleaned_data['kod_waluty']
 				c.save()"""
-				
+
 				c=form.save(commit=False)
 				c.save()
 				return redirect('currens')
@@ -89,7 +94,7 @@ def walutaNowa (request):
 def walutaUsun(request,cid):
 	Waluta.objects.get(pk=cid).delete()
 	return redirect('currens')
-	
+
 def edytujwaluta(request,cid):
 	try:
 		waluta = get_object_or_404(Waluta, pk=cid)
@@ -106,9 +111,9 @@ def edytujwaluta(request,cid):
 		form=WalutaForm(instance=waluta)
 		idt=cid
 	return render(request,"kryptomain/walutaEdycja.html",{'form': form, 'idt':idt})
-	
-	
-	
+
+
+
 # kryptowaluty
 def Kryptowaluty (request):
 	data = Kryptowaluta.objects.all()
@@ -121,12 +126,12 @@ def nowaKryptoWaluta (request):
 	if request.method == "POST":
 		form=KryptowalutaForm(request.POST)
 		if form.is_valid():
-				
+
 				"""c=Waluta()
 				c.nazwa_waluty = form.cleaned_data['nazwa_waluty']
 				c.kod_waluty = form.cleaned_data['kod_waluty']
 				c.save()"""
-				
+
 				c=form.save(commit=False)
 				c.save()
 				return redirect('cryptocurrens')
@@ -157,8 +162,8 @@ def edytujKryptowaluta(request,cid):
 def deleteKryptowaluta(request,cid):
 	Kryptowaluta.objects.get(pk=cid).delete()
 	return redirect('cryptocurrens')
-		
-		
+
+
 #przelew
 def przelewy(request):
 	data = Przelew.objects.filter(ID_USER=request.user.id).order_by('data_tranzakcji').reverse()
@@ -168,13 +173,13 @@ def przelewy(request):
 		'walutaZm':data2,
 	}
 	return render(request, "kryptomain/Przelewy.html", context)
-		
-		
+
+
 def nowyPrzelew (request):
 	if request.method == "POST":
 		form=PrzelewForm(request.POST)
 		if form.is_valid():
-		
+
 				c=form.save(commit=False)
 				c.ID_USER=request.user.id
 				c.save()
@@ -199,24 +204,24 @@ def edytujPrzelew(request,cid):
 		form=PrzelewForm(request.POST, instance=przelew)
 		if form.is_valid():
 				c=form.save(commit=False)
-				
+
 				c.save()
 				return redirect('Przelewy')
 	else:
 		form=PrzelewForm(instance=przelew)
 		idt=cid
 	return render(request,"kryptomain/przelewEdycja.html",{'form': form, 'idt':idt})
-	
+
 def kategoria(request):
 	if request.method == "POST":
 		form=KategoriaForm(request.POST)
 		if form.is_valid():
-				
+
 				"""c=Waluta()
 				c.nazwa_waluty = form.cleaned_data['nazwa_waluty']
 				c.kod_waluty = form.cleaned_data['kod_waluty']
 				c.save()"""
-				
+
 				c=form.save(commit=False)
 				c.save()
 				return redirect('kategoria')
@@ -224,7 +229,7 @@ def kategoria(request):
 			data = Kategoria.objects.all();
 			context={
 			'kategoriaZm':data
-			
+
 			}
 			form=KategoriaForm()
 			return render(request,"kryptomain/Kategoria.html",{'form': form}, context, )
@@ -233,14 +238,14 @@ def kategoria(request):
 		data = Kategoria.objects.all();
 		context={
 		'kategoriaZm':data
-		
+
 		}
 		return render(request,"kryptomain/Kategoria.html", context, {'form': form})
-		
+
 def deletekategoria (request,cid):
 	Kategoria.objects.get(pk=cid).delete()
 	return redirect('kategoria')
-	
+
 def edytujkategoria(request,cid):
 	try:
 		kategoria = get_object_or_404(Kategoria, pk=cid)
@@ -250,21 +255,21 @@ def edytujkategoria(request,cid):
 		form=KategoriaForm(request.POST, instance=kategoria)
 		if form.is_valid():
 				kategoria.nazwa_kategorii = form.cleaned_data['nazwa_kategorii']
-				
+
 				kategoria.save()
 				return redirect('kategoria')
 	else:
 		form=KategoriaForm(instance=kategoria)
 		idt=cid
 	return render(request,"kryptomain/KategoriaEdytuj.html",{'form': form, 'idt':idt})
-	
+
 def newtemat(request):
 	if request.method == "POST":
 		form=TematycznyPostForm(request.POST)
 		if form.is_valid():
-		        
+
 				c=form.save(commit=False)
-				
+
 				c.ID_autora=request.user
 				c.data_wpisu=timezone.now()
 				object=c
@@ -272,7 +277,7 @@ def newtemat(request):
 				tags = form.cleaned_data['tags']
 				for tag in tags:
 					object.tags.add(tag)
-				
+
 				return redirect('index')
 		else:
 			form=TematycznyPostForm()
@@ -280,30 +285,30 @@ def newtemat(request):
 	else:
 		form=TematycznyPostForm()
 		return render(request,"kryptomain/tematNowy.html",{'form': form})
-		
+
 def blog(request):
 	data = TematycznyPost.objects.all().order_by('data_wpisu').reverse()
 	data2 = Kategoria.objects.all();
-	
+
 	context={
 		'PostZM':data,
 		'KategoriaZM':data2,
-		
-		
+
+
 	}
 	return render(request, "kryptomain/Blog.html", context)
 def blogszukaj(request):
 	if request.method == 'POST':
     # Add object to database
 		dataPost=request.POST
-		
+
 		KategoriaFiltr = dataPost['kategoria']
 		filterZM = dataPost['szukaj']
 		if KategoriaFiltr=='wszystkie':
 			if filterZM=='':
 				return redirect('blog')
 			data = TematycznyPost.objects.filter(nazwa_postu__contains=filterZM)
-		else:	
+		else:
 			data = TematycznyPost.objects.filter(idkategorii_id=KategoriaFiltr, nazwa_postu__contains=filterZM).order_by('data_wpisu').reverse()
 		data2 = Kategoria.objects.all();
 		context={
@@ -325,7 +330,7 @@ def rejestracja(request):
 			my_group = Group.objects.get(name='użytkownik')
 			my_group.user_set.add(tempUser)
 			return redirect('index')
-		else:	
+		else:
 			args={'form':form}
 			return render(request, "kryptomain/rejestracja.html",args)
 	else:
@@ -334,8 +339,8 @@ def rejestracja(request):
 		return render(request, "kryptomain/rejestracja.html",args)
 
 
-	
-	
+
+
 def blogPost(request, cid):
 	if request.method == "POST":
 		form=KomentarzForm(request.POST)
@@ -361,11 +366,11 @@ def blogPost(request, cid):
 				'KomentarzZm':data3
 			}
 			form = KomentarzForm()
-			
+
 			return render(request, "kryptomain/BlogPost.html", context, {'form': form})
-	
+
 	else:
-		
+
 		data = TematycznyPost.objects.get(pk=cid)
 		data2 = Kategoria.objects.all()
 		data3 = Komentarz.objects.filter(TematycznyPost=data).order_by('data_wpisu').reverse()
@@ -377,40 +382,40 @@ def blogPost(request, cid):
 			'KomentarzZm':data3
 		}
 		forma = KomentarzForm()
-		
+
 		return render(request, "kryptomain/BlogPost.html", context, {'forms': forma})
-	
-	
+
+
 def blogUser(request,slug):
 	user = User.objects.get(username=slug)
 	data = TematycznyPost.objects.filter(ID_autora=user)
 	data2 = Kategoria.objects.all()
-	
+
 	context={
 		'PostZM':data,
 		'KategoriaZM':data2,
-		
+
 	}
 	return render(request, "kryptomain/Blog.html", context)
-	
+
 def TagIndexView(request,slug):
-	
+
 
 	data = TematycznyPost.objects.filter(tags__slug__in=[slug])
 	data2 = Kategoria.objects.all();
 	context={
-		
+
 		'PostZM':data,
 		'KategoriaZM':data2,
 	}
-	return render(request, "kryptomain/Blog.html", context)   
-	
-	
+	return render(request, "kryptomain/Blog.html", context)
+
+
 def pdfgenview(request):
 		return render(request,"kryptomain/logowanie.html")
 def logowanie(request):
 		return render(request,"kryptomain/logowanie.html")
-		
+
 def api(request):
 	if request.is_ajax():
 		q = request.GET.get('term', '')
@@ -427,7 +432,7 @@ def api(request):
 
 	mimetype='application/json'
 	return HttpResponse(data, mimetype)
-	
+
 
 
 def apikategoria(request):

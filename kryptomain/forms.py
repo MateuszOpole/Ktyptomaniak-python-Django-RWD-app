@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+import sys
+
 from django import forms
 from django.contrib.auth.models import *
 from django.contrib.auth.forms import UserCreationForm
@@ -12,17 +15,17 @@ class KryptowalutaForm(forms.ModelForm):
 		class Meta:
 			model = Kryptowaluta
 			fields = ('nazwa_kryptowaluty', 'kod_kryptowaluty','informacje_dodatkowe',)
-			
+
 class PrzelewForm(forms.ModelForm):
 		class Meta:
 			model = Przelew
-			fields = ('nazwa_przelewu_text','kryptowaluta','ilość_kryptowalut','data_tranzakcji','waluta_zakupu','kryptowaluta_zakupu','zaplacono','waluta_powiadomienia','widełki_min', 'widełki_max',)
+			fields = ('nazwa_przelewu_text','kryptowaluta','ilosc_kryptowalut','data_tranzakcji','waluta_zakupu','kryptowaluta_zakupu','zaplacono','waluta_powiadomienia','widelki_min', 'widelki_max',)
 			labels = {
             'nazwa_przelewu_text':'Nazwa przelewu',
 			'kryptowaluta':'Zakupiona kryptowaluta',
 			'zaplacono':'Koszt zakupu',
-			'widełki_min':'Dolna granica wartości powiadomienia',
-			'widełki_max':'Górna granica wartości powiadomienia',
+			'widelki_min':'Dolna granica wartości powiadomienia',
+			'widelki_max':'Górna granica wartości powiadomienia',
 			'waluta_powiadomienia':'Waluta sprzedaży'
 			}
 			widgets = {
@@ -40,14 +43,14 @@ class PrzelewForm(forms.ModelForm):
 			def __init__(self, *args, **kwargs):
 				self.kryptowaluta_zakupu.label_class = ('div2',)
 				super(PrzelewForm, self).__init__(*args, **kwargs)
-				
+
 class KategoriaForm(forms.ModelForm):
 		class Meta:
 			model = Kategoria
 			fields = ('nazwa_kategorii',)
 			widgets = {
             'nazwa_kategorii': forms.DateInput(attrs={'placeholder':'Wpisz kategorię','style': 'width: 100% ', 'class':'form-control'}),}
-			
+
 class TematycznyPostForm(forms.ModelForm):
 		class Meta:
 			model = TematycznyPost
@@ -58,12 +61,12 @@ class TematycznyPostForm(forms.ModelForm):
 			'idkategorii':'Kategoria',
 			'tags':'Tagi'
 			}
-			
+
 			widgets = {
             'nazwa_postu': forms.TextInput(attrs={'placeholder':'Nazwij swój post','style': 'width: 100% ', 'class':'form-control' }),
 			'text': forms.Textarea(attrs={'placeholder':'Wpisz treść','style': 'width: 100% ', 'class':'form-control' }),
 			'idkategorii':forms.Select(attrs={'style': 'width: 100% ','class':'form-control' }),
-			
+
 			}
 
 class KomentarzForm(forms.ModelForm):
@@ -73,10 +76,10 @@ class KomentarzForm(forms.ModelForm):
 			labels = {'textcom':'Tekst komentarza'}
 			widgets = {'textcom': forms.Textarea(attrs={'placeholder':'Wpisz treść','style': 'width: 100% ', 'class':'form-control' }),
 			}
-			
+
 class RejestracjaForm(UserCreationForm)	:
 		email=forms.EmailField(required=True,error_messages={
-            'invalid': ("Sprawdzam Email")},widget=forms.EmailInput(attrs={'placeholder':'Wpisz email','class':'form-control','width':'100%'}))	
+            'invalid': ("Sprawdzam Email")},widget=forms.EmailInput(attrs={'placeholder':'Wpisz email','class':'form-control','width':'100%'}))
 		password1=forms.CharField(label=("Hasło"),widget=forms.PasswordInput(attrs={'placeholder':'Wpisz hasło','class':'form-control','minlength':'8'}))
 		password2 = forms.CharField(label=("Powtórz hasło"),widget=forms.PasswordInput(attrs={'placeholder':'Powtórz hasło','class':'form-control','minlength':'8'}),help_text=("Powtórz hasło dla weryfikacji."))
 		error_messages = {
@@ -85,7 +88,7 @@ class RejestracjaForm(UserCreationForm)	:
 		}
 		username = forms.RegexField(label=("Użytkownik"),max_length=30,
         regex=r'^[\w.@+-]+$',
-       
+
         error_messages={
             'invalid': ("Można używać liter, cyfr oraz "
                          "@/./+/-/_ c.")},widget=forms.TextInput(attrs={'placeholder':'Wpisz login','class':'form-control'}))
@@ -104,7 +107,7 @@ class RejestracjaForm(UserCreationForm)	:
 			'username':'Nazwa użytkownika',
 			'first_name':'Imię',
 			'last_name':'Nazwisko',
-			
+
 			}
 		def clean_username(self):
 			username = self.cleaned_data["username"]
@@ -121,7 +124,7 @@ class RejestracjaForm(UserCreationForm)	:
 				raise forms.ValidationError(
 					self.error_messages['password_mismatch'])
 			return password2
-		
+
 		def save(self, commit=True):
 			user = super(RejestracjaForm, self).save(commit=False)
 			user.first_name=self.cleaned_data['first_name']
@@ -130,12 +133,11 @@ class RejestracjaForm(UserCreationForm)	:
 			if commit:
 				user.save()
 			return user
-		
-		
 
-			
-			
-			
-			
-			
-			
+
+
+
+
+
+
+
