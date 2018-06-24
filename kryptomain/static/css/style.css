@@ -568,7 +568,7 @@ header .fh5co-navbar-brand .fh5co-logo:active, header .fh5co-navbar-brand .fh5co
 #fh5co-hero {
   margin-bottom: 5em;
   min-height: 700px;
-  background: #fff url(../images/loader.gif) no-repeat center center;
+  
 }
 #fh5co-hero .btn {
   font-size: 24px;
