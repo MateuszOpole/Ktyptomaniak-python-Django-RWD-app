@@ -27,8 +27,10 @@ STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
 STATIC_URL = '/static/'
 
 # Extra places for collectstatic to find static files.
-
-
+STATICFILES_DIRS = (
+    os.path.join(PROJECT_ROOT, 'static'),
+)
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '3uku#*7h8r4(hqaya+^j9!u61j_#l2wqj%1fk4ulagyuz!sf@k'
 
