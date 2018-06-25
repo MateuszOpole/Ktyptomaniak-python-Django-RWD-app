@@ -60,10 +60,10 @@
 						<div style="background-color:#ECECEC; width:100%;border-radius: 25px;">
 						<div class="sticky">
 									
-						<form action="{% url 'blogszukaj' %}" method="post" >
+							<form action="{% url 'blogszukaj' %}" method="post" style="font-size:13px; color:#888888; border-radius: 25px;"  >
 						{% csrf_token %}
 						
-									<input  type="text" class="form-control glyphicon glyphicon-search" name="szukaj" id="szukaj" placeholder="Szukaj">Dział
+									<input type="text" class="form-control glyphicon glyphicon-search" name="szukaj" id="szukaj" placeholder="Szukaj">Dział
 									<select style="border:2px solid #FFFFFF;" name="kategoria" id="kategoria"  placeholder="Szukaj">
 									<option value="wszystkie" >Ogólne</option>
 									{% for kategoriaf in KategoriaZM %}
