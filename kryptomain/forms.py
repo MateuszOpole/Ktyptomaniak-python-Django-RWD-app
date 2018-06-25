@@ -35,9 +35,9 @@ class PrzelewForm(forms.ModelForm):
 			'nazwa_przelewu_text':forms.TextInput(attrs={'placeholder':'Nazwij swój przelew','style': 'width: 100% ', 'class':'form-control' }),
 			'waluta_powiadomienia':forms.Select(attrs={'id':'div3','style': 'width: 100% ', 'class':'form-control' }),
 			'kryptowaluta':forms.Select(attrs={'id':'div4','style': 'width: 100% ', 'class':'form-control'}),
-			'widełki_min':forms.NumberInput(attrs={'style': 'width: 100% ', 'class':'form-control','type':'number'}),
-			'widełki_max':forms.NumberInput(attrs={'style': 'width: 100% ', 'class':'form-control',}),
-			'ilość_kryptowalut':forms.NumberInput(attrs={'style': 'width: 100% ', 'class':'form-control'}),
+			'widelki_min':forms.NumberInput(attrs={'style': 'width: 100% ', 'class':'form-control','type':'number'}),
+			'widelki_max':forms.NumberInput(attrs={'style': 'width: 100% ', 'class':'form-control',}),
+			'ilosc_kryptowalut':forms.NumberInput(attrs={'style': 'width: 100% ', 'class':'form-control'}),
 			'zaplacono':forms.NumberInput(attrs={'style': 'width: 100% ', 'class':'form-control',}),
 			}
 			def __init__(self, *args, **kwargs):
