@@ -64,7 +64,7 @@
 						{% csrf_token %}
 						
 									<input  type="text" class="form-control glyphicon glyphicon-search" name="szukaj" id="szukaj" placeholder="Szukaj">Dział
-									<select style="font-family: Times New Roman" name="kategoria" id="kategoria"  placeholder="Szukaj">
+									<select style="border:2px solid #FFFFFF;" name="kategoria" id="kategoria"  placeholder="Szukaj">
 									<option value="wszystkie" >Ogólne</option>
 									{% for kategoriaf in KategoriaZM %}
 										<option value="{{kategoriaf.id}}">{{kategoriaf.nazwa_kategorii}}</option>

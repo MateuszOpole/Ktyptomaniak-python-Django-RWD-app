@@ -21,6 +21,7 @@ from django.contrib.auth import views as auth_views
 from django.conf.urls import include, url
 
 urlpatterns = [
+	url(r'^newprzelew/', views.nowyPrzelew, name='nowyPrzelew'),
 	url(r'^rejestracja/',views.rejestracja, name="rejestracja"),
 	url(r'^blogUser/(?P<slug>[-\w]+)/$', views.blogUser, name='blogUser'),
 	url(r'^blogPost/(?P<cid>\d+)/$', views.blogPost, name='blogPost'),
@@ -46,7 +47,7 @@ urlpatterns = [
 	url(r'^edytujwaluta/(?P<cid>\d+)/$', views.edytujwaluta, name='edytujwaluta'),
 	url(r'^edytujkategoria/(?P<cid>\d+)/$', views.edytujkategoria, name='edytujkategoria'),
 	url(r'^newcryptocurr/', views.nowaKryptoWaluta, name='nowaKryptoWaluta'),
-	url(r'^newprzelew/', views.nowyPrzelew, name='nowyPrzelew'),
+	
 	url(r'^newcurr/', views.walutaNowa, name='nowawal'),	
 	url(r'^kategoria/', views.kategoria, name='kategoria'),
 	url(r'^curr/', views.waluty, name='currens'),	

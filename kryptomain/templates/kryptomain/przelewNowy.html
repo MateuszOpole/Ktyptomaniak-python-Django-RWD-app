@@ -9,16 +9,16 @@
             function fn1(){
                 document.getElementById('div1').style.display = "none";
                 document.getElementById('div2').style.display = "inline";
-				document.getElementById('div1').value="0";
-				document.getElementById('div2').value="0".hidden;
+				document.getElementById('div1').value="1";
+				document.getElementById('div2').value="1".hidden;
             }
         </script>
 		<script>
             function fn2(){
                 document.getElementById('div1').style.display = "inline";
                 document.getElementById('div2').style.display = "none";
-				document.getElementById('div2').value="0";
-				document.getElementById('div1').value="0".hidden;
+				document.getElementById('div2').value="1";
+				document.getElementById('div1').value="1".hidden;
             }
         </script>
 		
@@ -29,22 +29,22 @@
 				var element2 = document.getElementById('div2');
 				var element3 = document.getElementById('div3');
 				var element4 = document.getElementById('div4');
-				var liczbaMin = parseFloat(document.getElementById('id_widełki_min').value);
-				var liczbaMax = parseFloat(document.getElementById('id_widełki_max').value);
+				var liczbaMin = parseFloat(document.getElementById('id_widelki_min').value);
+				var liczbaMax = parseFloat(document.getElementById('id_widelki_max').value);
 				
-				if(element.value=='0' && element2.value=='0')
+				if(element.value=='1' && element2.value=='1')
 					{
 					alert('Wybierz waluta zakupu \n');
 					document.getElementById('div1').focus();
 					return false;
 					}
-				else if(element3.value=='0')
+				else if(element3.value=='1')
 					{
 					alert('Wybierz walutę, w której chcesz sprzedać kryptowalutę');
 					document.getElementById('div3').focus();
 					return false;
 					}
-				else if(element4.value=='0')
+				else if(element4.value=='1')
 					{
 					alert('Wybierz zakupioną kryptowalutę');
 					document.getElementById('div4').focus();
