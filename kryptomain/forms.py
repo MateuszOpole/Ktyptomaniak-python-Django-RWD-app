@@ -135,7 +135,7 @@ class RejestracjaForm(UserCreationForm)	:
 			if commit:
 				username = self.cleaned_data["username"]
 				mail_from = getattr(settings, 'DEFAULT_EMAIL', "")
-				send_mail('Potwierdzenie rejestracji Kryptomaniak', 'Potwierdz rejestrację. Wejdź na stronę: http://localhost:8000/username/'+username+'/', mail_from, [user.email, ])
+				send_mail('Potwierdzenie rejestracji Kryptomaniak', 'Potwierdz rejestrację. Wejdź na stronę: https://kryptoapp2.herokuapp.com/username/'+username+'/', mail_from, [user.email, ])
 				user.save()
 				
 				
