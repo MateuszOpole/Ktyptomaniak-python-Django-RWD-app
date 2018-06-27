@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 
 import os
 
-import psycopg2
+#import psycopg2
 from django.conf import settings
 
 
@@ -91,7 +91,12 @@ import dj_database_url
 DATABASES = { 'default': dj_database_url.config() }
 DATABASES['default'] = dj_database_url.config(conn_max_age=600)
 DATABASES['default'] = dj_database_url.config(default='postgres://zfizmeupreiotb:1240ef586d51e73093f3e908bf9714f0d6f709d1bc09d626d6854973c1eb8711@ec2-54-243-40-26.compute-1.amazonaws.com:5432/dchh5qr1rmicgd')
-
+#DATABASES = {
+  #  'default': {
+   #     'ENGINE': 'django.db.backends.sqlite3',
+    #    'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+  #  }
+ #}
 
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
@@ -139,7 +144,13 @@ LOGIN_URL = 'login'
 LOGOUT_URL = 'logout'
 LOGIN_REDIRECT_URL = 'index'
 
-
+DEFAULT_EMAIL='kryptoapp2@gmail.com'
+EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'kryptoapp2@gmail.com'
+EMAIL_HOST_PASSWORD = 'zetor1994'
+EMAIL_USE_TLS = True
 
 
 

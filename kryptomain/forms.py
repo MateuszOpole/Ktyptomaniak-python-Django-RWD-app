@@ -5,6 +5,7 @@ from django import forms
 from django.contrib.auth.models import *
 from django.contrib.auth.forms import UserCreationForm
 from kryptomain.models import *
+from django.core.mail import send_mail
 
 class WalutaForm(forms.ModelForm):
 		class Meta:
@@ -19,7 +20,7 @@ class KryptowalutaForm(forms.ModelForm):
 class PrzelewForm(forms.ModelForm):
 		class Meta:
 			model = Przelew
-			fields = ('nazwa_przelewu_text','kryptowaluta','ilosc_kryptowalut','data_tranzakcji','waluta_zakupu','kryptowaluta_zakupu','zaplacono','waluta_powiadomienia','widelki_min', 'widelki_max',)
+			fields = ('nazwa_przelewu_text','kryptowaluta','ilosc_kryptowalut','data_tranzakcji','waluta_zakupu','kryptowaluta_zakupu','zaplacono','waluta_powiadomienia','widelki_min', 'widelki_max','nieaktywny')
 			labels = {
             'nazwa_przelewu_text':'Nazwa przelewu',
 			'kryptowaluta':'Zakupiona kryptowaluta',
@@ -130,8 +131,14 @@ class RejestracjaForm(UserCreationForm)	:
 			user.first_name=self.cleaned_data['first_name']
 			user.last_name=self.cleaned_data['last_name']
 			user.email=self.cleaned_data['email']
+			user.is_active = False
 			if commit:
+				username = self.cleaned_data["username"]
+				mail_from = getattr(settings, 'DEFAULT_EMAIL', "")
+				send_mail('Potwierdzenie rejestracji Kryptomaniak', 'Potwierdz rejestrację. Wejdź na stronę: http://localhost:8000/username/'+username+'/', mail_from, [user.email, ])
 				user.save()
+				
+				
 			return user
 
 

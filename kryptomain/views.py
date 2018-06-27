@@ -1,9 +1,6 @@
 # -*- coding: utf-8 -*-
 import sys
-
-
-
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from django.http import HttpResponse
 from django.utils import timezone
 from kryptomain.forms import *
@@ -18,12 +15,13 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import *
 from django.contrib.auth.models import *
 from django.contrib.auth.forms import UserCreationForm
-
-import sys
+from django.http import HttpRequest
 import json
 from taggit.models import Tag
 from datetime import datetime
 from django.contrib.auth.models import Group
+import requests
+from django.core.mail import send_mail
 
 class TagMixin(object):
     def get_context_data(self, kwargs):
@@ -409,7 +407,11 @@ def TagIndexView(request,slug):
 		'KategoriaZM':data2,
 	}
 	return render(request, "kryptomain/Blog.html", context)
-
+def AktywacjaKonta(request,slug):
+	user = User.objects.get(username=slug)
+	user.is_active = True
+	user.save()
+	return render(request,"kryptomain/logowanie.html")
 
 def pdfgenview(request):
 		return render(request,"kryptomain/logowanie.html")
@@ -438,7 +440,7 @@ def api(request):
 def apikategoria(request):
 	if request.is_ajax():
 		q = request.GET.get('term', '')
-		items = Kategoria.objects.filter(nazwa_kategorii__startswith=q)
+		items = Kategoria.objects.filter(nazwa_kategorii__icontains=q)
 		result = []
 		for curr in items:
 			currs_json = {}
@@ -451,6 +453,81 @@ def apikategoria(request):
 
 	mimetype='application/json'
 	return HttpResponse(data, mimetype)
+def apiPrzelew(test):
+	#Bitcoin PL
+	przelewyBTCPLN = Przelew.objects.filter(kryptowaluta__kod_kryptowaluty='BTC', waluta_powiadomienia__kod_waluty='PLN',nieaktywny=False)
+	apiBTCPLN = requests.get('https://api.coinmarketcap.com/v2/ticker/1/?convert=PLN')
+	valueApiBTCPLN=(apiBTCPLN.json()['data']['quotes']['PLN']['price'])
+	if isinstance(valueApiBTCPLN, float):
+		checkValue(przelewyBTCPLN,valueApiBTCPLN,'BTC','PLN')
+	#Bitcoin USD	
+	przelewyBTCUSD = Przelew.objects.filter(kryptowaluta__kod_kryptowaluty='BTC', waluta_powiadomienia__kod_waluty='USD',nieaktywny=False)
+	apiBTCUSD = requests.get('https://api.coinmarketcap.com/v2/ticker/1/?convert=PLN')
+	valueApiBTCUSD=(apiBTCUSD.json()['data']['quotes']['USD']['price'])
+	if isinstance(valueApiBTCUSD, float):
+		checkValue(przelewyBTCUSD,valueApiBTCUSD,'BTC','USD')
+	#Bitcoin EUR	
+	przelewyBTCEUR = Przelew.objects.filter(kryptowaluta__kod_kryptowaluty='BTC', waluta_powiadomienia__kod_waluty='EUR',nieaktywny=False)
+	apiBTCEUR = requests.get('https://api.coinmarketcap.com/v2/ticker/1/?convert=EUR')
+	valueApiBTCEUR=(apiBTCEUR.json()['data']['quotes']['EUR']['price'])
+	if isinstance(valueApiBTCEUR, float):
+		checkValue(przelewyBTCEUR,valueApiBTCEUR,'BTC','EUR')
+	#ETHERNEUM PLN	
+	przelewyETHPLN = Przelew.objects.filter(kryptowaluta__kod_kryptowaluty='ETH', waluta_powiadomienia__kod_waluty='PLN',nieaktywny=False)
+	apiETHPLN = requests.get('https://api.coinmarketcap.com/v2/ticker/1027/?convert=PLN')
+	valueApiETHPLN=(apiETHPLN.json()['data']['quotes']['PLN']['price'])
+	if isinstance(valueApiETHPLN, float):
+		checkValue(przelewyETHPLN,valueApiETHPLN,'ETH','PLN')
+	#ETHERNEUM EUR	
+	przelewyETHEUR = Przelew.objects.filter(kryptowaluta__kod_kryptowaluty='ETH', waluta_powiadomienia__kod_waluty='EUR',nieaktywny=False)
+	apiETHEUR = requests.get('https://api.coinmarketcap.com/v2/ticker/1027/?convert=EUR')
+	valueApiETHEUR=(apiETHEUR.json()['data']['quotes']['EUR']['price'])
+	if isinstance(valueApiETHEUR, float):
+		checkValue(przelewyETHEUR,valueApiETHEUR,'ETH','EUR')
+	#ETHERNEUM USD
+	przelewyETHUSD = Przelew.objects.filter(kryptowaluta__kod_kryptowaluty='ETH', waluta_powiadomienia__kod_waluty='USD',nieaktywny=False)
+	apiETHUSD = requests.get('https://api.coinmarketcap.com/v2/ticker/1027/?convert=PLN')
+	valueApiETHUSD=(apiETHUSD.json()['data']['quotes']['USD']['price'])
+	if isinstance(valueApiETHUSD, float):
+		checkValue(przelewyETHUSD,valueApiETHUSD,'ETH','USD')
+	 #Ripple PLN
+	przelewyXRPPLN = Przelew.objects.filter(kryptowaluta__kod_kryptowaluty='XRP', waluta_powiadomienia__kod_waluty='PLN',nieaktywny=False)
+	apiXRPPLN= requests.get('https://api.coinmarketcap.com/v2/ticker/52/?convert=PLN')
+	valueApiXRPPLN=(apiETHPLN.json()['data']['quotes']['PLN']['price'])
+	if isinstance(valueApiXRPPLN, float):
+		checkValue(przelewyXRPPLN,valueApiXRPPLN,'XRP','PLN')
+	#Ripple EUR
+	przelewyXRPEUR = Przelew.objects.filter(kryptowaluta__kod_kryptowaluty='XRP', waluta_powiadomienia__kod_waluty='EUR',nieaktywny=False)
+	apiXRPEUR= requests.get('https://api.coinmarketcap.com/v2/ticker/52/?convert=EUR')
+	valueApiXRPEUR=(apiXRPEUR.json()['data']['quotes']['EUR']['price'])
+	if isinstance(valueApiXRPEUR, float):
+		checkValue(przelewyXRPEUR,valueApiXRPEUR,'XRP','EUR')
+	#Ripple USD
+	przelewyXRPUSD = Przelew.objects.filter(kryptowaluta__kod_kryptowaluty='XRP', waluta_powiadomienia__kod_waluty='USD',nieaktywny=False)
+	apiXRPUSD= requests.get('https://api.coinmarketcap.com/v2/ticker/52/?convert=PLN')
+	valueApiXRPUSD=(apiXRPUSD.json()['data']['quotes']['USD']['price'])
+	if isinstance(valueApiXRPUSD, float):
+		checkValue(przelewyXRPUSD,valueApiXRPUSD,'XRP','USD')
+	
+	return HttpResponse()
+#	
+	 #Ethereum Pl
+	# apiETH = requests.get('https://api.coinmarketcap.com/v2/ticker/1027/?convert=PLN')
+	 #ripple
+	# apiXRP= requests.get('https://api.coinmarketcap.com/v2/ticker/52/?convert=PLN')
+def checkValue(przelewy, valueApi, Kryptowaluta,Waluta ):
+	for przelew in przelewy:
+			value= float ( przelew.ilosc_kryptowalut)*valueApi
+			tempEmail = User.objects.values_list('email', flat=True).get(id=przelew.ID_USER)
+			if float(przelew.widelki_max)<value:
+				mail_from = getattr(settings, 'DEFAULT_EMAIL', "")
+				send_mail('uwaga powiadomienie kryptomaniak', 'Granica górna przekroczona: '+ str(przelew.ilosc_kryptowalut)+' '+Kryptowaluta +' warte: '+str(round(value,3))+Waluta, mail_from, [tempEmail, ])
+			if float(przelew.widelki_min)>value:
+				mail_from = getattr(settings, 'DEFAULT_EMAIL', "")
+				send_mail('uwaga powiadomienie kryptomaniak', 'Granica dolna:przekroczona:'+ str(przelew.ilosc_kryptowalut)+' '+Kryptowaluta +' warte: '+str(round(value,3))+Waluta, mail_from, [tempEmail, ])
+	return 
+		
+	
 def apiPost(request):
 	if request.is_ajax():
 		q = request.GET.get('term', '')

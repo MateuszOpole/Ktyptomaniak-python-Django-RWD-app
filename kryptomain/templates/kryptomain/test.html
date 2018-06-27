@@ -1,0 +1,31 @@
+{% extends "kryptomain/worklayout.html" %}
+
+	{% block content %}
+		Zarządzanie kryptowalutami
+	{% endblock content %}
+ 
+	{% block content1 %}
+		Kryptowaluty w serwisie
+	{% endblock content1 %}
+
+	{% block content2 %}
+ 
+		<a class="text-center"><a class="fh5co-logo" href="{% url 'nowaKryptoWaluta' %}">Dodaj kryptowalute</a>
+		
+		<br>
+		<br>
+		<table  class="table" >
+		
+		
+		
+		{% for wynikZ in wynik %}
+		<tr>
+		<td>{{wynikZ}}</td>
+	
+		</tr>
+		{%endfor%}
+		</table>
+		
+		
+			
+	{% endblock content2 %}

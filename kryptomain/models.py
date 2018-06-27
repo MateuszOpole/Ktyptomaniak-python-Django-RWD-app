@@ -7,6 +7,7 @@ from datetime import date
 import datetime
 from taggit.managers import TaggableManager
 from django.conf import settings
+from django.utils import timezone
 # Create your models here.
 
 
@@ -41,6 +42,7 @@ class Przelew(models.Model):
 	waluta_powiadomienia = models.ForeignKey(Waluta, default=0, related_name='%(class)s_waluta_powiadomienia')
 	widelki_min=models.DecimalField(max_digits=10, decimal_places=4, default=0)
 	widelki_max=models.DecimalField(max_digits=10, decimal_places=4, default=0)
+	nieaktywny=models. BooleanField(default=False)
 	def __str__(self):
 			return self.nazwa_przelewu_text
 
@@ -60,6 +62,9 @@ class TematycznyPost(models.Model):
 	idkategorii= models.ForeignKey(Kategoria, default=0)
 	def __str__(self):
 		return self.nazwa_postu
+	def was_published_recently(self):
+		now = timezone.now()
+		return now - datetime.timedelta(days=1) <= self.data_wpisu <= now
 
 class Komentarz(models.Model):
 	autor = models.ForeignKey(settings.AUTH_USER_MODEL, default=1)

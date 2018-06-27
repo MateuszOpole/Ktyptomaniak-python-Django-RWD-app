@@ -21,6 +21,7 @@ from django.contrib.auth import views as auth_views
 from django.conf.urls import include, url
 
 urlpatterns = [
+	url(r'^username/(?P<slug>[-\w]+)/$', views.AktywacjaKonta, name='AktywacjaKonta'),
 	url(r'^newprzelew/', views.nowyPrzelew, name='nowyPrzelew'),
 	url(r'^rejestracja/',views.rejestracja, name="rejestracja"),
 	url(r'^blogUser/(?P<slug>[-\w]+)/$', views.blogUser, name='blogUser'),
@@ -31,6 +32,7 @@ urlpatterns = [
 	url(r'^blog/', views.blog, name='blog'),
 	url(r'^taggit/', include('taggit_selectize.urls')),
     url(r'^admin/', include(admin.site.urls)),
+	url(r'^apiprzelew/', views.apiPrzelew, name='apiprzelew'),
 	url(r'^apikategoria/', views.apikategoria, name='apikategoria'),
 	url(r'^newtemat/', views.newtemat, name='newtemat'),
 	url(r'^tag/(?P<slug>[-\w]+)/$', views.TagIndexView, name='tagged'),
