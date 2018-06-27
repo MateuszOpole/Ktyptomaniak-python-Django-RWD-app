@@ -35,7 +35,7 @@ SECRET_KEY = '3uku#*7h8r4(hqaya+^j9!u61j_#l2wqj%1fk4ulagyuz!sf@k'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 ALLOWED_HOSTS = ['*']
-
+Fonts= os.path.join(STATIC_ROOT,'verdana.ttf')
 
 # Application definition
 
@@ -92,16 +92,21 @@ DATABASES = { 'default': dj_database_url.config() }
 DATABASES['default'] = dj_database_url.config(conn_max_age=600)
 DATABASES['default'] = dj_database_url.config(default='postgres://zfizmeupreiotb:1240ef586d51e73093f3e908bf9714f0d6f709d1bc09d626d6854973c1eb8711@ec2-54-243-40-26.compute-1.amazonaws.com:5432/dchh5qr1rmicgd')
 #DATABASES = {
-  #  'default': {
-   #     'ENGINE': 'django.db.backends.sqlite3',
-    #    'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-  #  }
+  # 'default': {
+    #    'ENGINE': 'django.db.backends.sqlite3',
+     #  'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+  # }
  #}
 
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
 
+from reportlab.pdfbase import pdfmetrics
+from reportlab.pdfbase.ttfonts import TTFont
+from reportlab.lib.fonts import addMapping
 
+pdfmetrics.registerFont(TTFont('Verdana',Fonts, 'UTF-8'))
+addMapping('Verdana', 0, 0, 'Verdana')
 
 # Password validation
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators

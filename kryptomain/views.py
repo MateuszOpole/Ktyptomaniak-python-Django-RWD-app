@@ -22,7 +22,7 @@ from datetime import datetime
 from django.contrib.auth.models import Group
 import requests
 from django.core.mail import send_mail
-
+from reportlab.pdfgen import canvas
 class TagMixin(object):
     def get_context_data(self, kwargs):
         context = super(TagMixin, self).get_context_data(kwargs)
@@ -414,7 +414,40 @@ def AktywacjaKonta(request,slug):
 	return render(request,"kryptomain/logowanie.html")
 
 def pdfgenview(request):
-		return render(request,"kryptomain/logowanie.html")
+		response = HttpResponse(content_type='application/pdf')
+		response['Content-Deposition']='filename="report.pdf"'
+  
+		page = canvas.Canvas(response)
+  
+		page.setFont('Verdana',12)
+  
+		page.drawString(250,750, "Witaj w raporcie "+request.user.username)
+		page.line(10,90,500,90)
+  
+	
+		
+  
+  # ilość rekordów w tabeli Currency
+  
+		data = Przelew.objects.filter(ID_USER=request.user.id).order_by('data_tranzakcji').count()
+		dataAktywne=Przelew.objects.filter(ID_USER=request.user.id,nieaktywny=False)
+		page.drawString(10, 650, "W serwisie posiadasz ilość przelewów: " +  str(data))
+		page.drawString(10, 620, "W serwisie posiadasz aktywnych przelewów, które są analizowane: " +  str(dataAktywne.count()))
+		
+		valuePrzelewow=checkValuePDF(request.user.id)
+		page.drawString(10, 590, "Wartość aktywów, które są analizowane " +  str(round(valuePrzelewow,2))+' PLN')
+		valuePrzelewow1=checkValuePDF2(request.user.id)	
+		page.drawString(10, 560, "Wartość aktywów, które zostały obliczone w aplikacji  " +  str(round(valuePrzelewow1,2))+' PLN')
+		przelewyBTC = Przelew.objects.filter(ID_USER=request.user.id,kryptowaluta__kod_kryptowaluty='BTC',nieaktywny=False,).count()
+		page.drawString(10, 530, "Przelewy z zakupionymi BTC " +  str(przelewyBTC))
+		przelewyXRP = Przelew.objects.filter(ID_USER=request.user.id,kryptowaluta__kod_kryptowaluty='XRP',nieaktywny=False,).count()
+		page.drawString(10, 500, "Przelewy z zakupionymi XRP " +  str(przelewyXRP))
+		przelewyETH = Przelew.objects.filter(ID_USER=request.user.id,kryptowaluta__kod_kryptowaluty='ETH',nieaktywny=False,).count()
+		page.drawString(10, 470, "Przelewy z zakupionymi ETH " +  str(przelewyETH))
+		page.showPage()
+		page.save()
+  
+		return response
 def logowanie(request):
 		return render(request,"kryptomain/logowanie.html")
 
@@ -526,8 +559,62 @@ def checkValue(przelewy, valueApi, Kryptowaluta,Waluta ):
 				mail_from = getattr(settings, 'DEFAULT_EMAIL', "")
 				send_mail('uwaga powiadomienie kryptomaniak', 'Granica dolna:przekroczona:'+ str(przelew.ilosc_kryptowalut)+' '+Kryptowaluta +' warte: '+str(round(value,3))+Waluta, mail_from, [tempEmail, ])
 	return 
-		
+def checkValuePDF(user_id):
+
+	value=float(0)
+	przelewyBTCPLN = Przelew.objects.filter(ID_USER=user_id,kryptowaluta__kod_kryptowaluty='BTC',nieaktywny=False,)
+	apiBTCPLN = requests.get('https://api.coinmarketcap.com/v2/ticker/1/?convert=PLN')
+	valueApiBTCPLN=(apiBTCPLN.json()['data']['quotes']['PLN']['price'])
 	
+	przelewyETHPLN = Przelew.objects.filter(ID_USER=user_id,kryptowaluta__kod_kryptowaluty='ETH',nieaktywny=False)
+	apiETHPLN = requests.get('https://api.coinmarketcap.com/v2/ticker/1027/?convert=PLN')
+	valueApiETHPLN=(apiETHPLN.json()['data']['quotes']['PLN']['price'])
+	
+	przelewyXRPPLN = Przelew.objects.filter(ID_USER=user_id,kryptowaluta__kod_kryptowaluty='XRP',nieaktywny=False)
+	apiXRPPLN= requests.get('https://api.coinmarketcap.com/v2/ticker/52/?convert=PLN')
+	valueApiXRPPLN=(apiETHPLN.json()['data']['quotes']['PLN']['price'])
+	if isinstance(valueApiXRPPLN, float):
+		checkValue(przelewyXRPPLN,valueApiXRPPLN,'XRP','PLN')
+	
+	for przelew in przelewyBTCPLN:
+		if isinstance(valueApiBTCPLN, float):
+			value=value+(valueApiBTCPLN*float(przelew.ilosc_kryptowalut))
+	for przelew in przelewyETHPLN :
+		if isinstance(valueApiETHPLN, float):
+			value=value+(valueApiETHPLN*float(przelew.ilosc_kryptowalut))			
+	for przelew in przelewyXRPPLN:
+		if isinstance(valueApiXRPPLN, float):
+			value=value+(valueApiXRPPLN*float(przelew.ilosc_kryptowalut))	
+	return value
+				
+def checkValuePDF2(user_id):
+
+	value=float(0)
+	przelewyBTCPLN = Przelew.objects.filter(ID_USER=user_id,kryptowaluta__kod_kryptowaluty='BTC',nieaktywny=True)
+	apiBTCPLN = requests.get('https://api.coinmarketcap.com/v2/ticker/1/?convert=PLN')
+	valueApiBTCPLN=(apiBTCPLN.json()['data']['quotes']['PLN']['price'])
+	
+	przelewyETHPLN = Przelew.objects.filter(ID_USER=user_id,kryptowaluta__kod_kryptowaluty='ETH',nieaktywny=True)
+	apiETHPLN = requests.get('https://api.coinmarketcap.com/v2/ticker/1027/?convert=PLN')
+	valueApiETHPLN=(apiETHPLN.json()['data']['quotes']['PLN']['price'])
+	
+	przelewyXRPPLN = Przelew.objects.filter(ID_USER=user_id,kryptowaluta__kod_kryptowaluty='XRP',nieaktywny=True)
+	apiXRPPLN= requests.get('https://api.coinmarketcap.com/v2/ticker/52/?convert=PLN')
+	valueApiXRPPLN=(apiETHPLN.json()['data']['quotes']['PLN']['price'])
+	if isinstance(valueApiXRPPLN, float):
+		checkValue(przelewyXRPPLN,valueApiXRPPLN,'XRP','PLN')
+	
+	for przelew in przelewyBTCPLN:
+		if isinstance(valueApiBTCPLN, float):
+			value=value+(valueApiBTCPLN*float(przelew.ilosc_kryptowalut))
+	for przelew in przelewyETHPLN :
+		if isinstance(valueApiETHPLN, float):
+			value=value+(valueApiETHPLN*float(przelew.ilosc_kryptowalut))			
+	for przelew in przelewyXRPPLN:
+		if isinstance(valueApiXRPPLN, float):
+			value=value+(valueApiXRPPLN*float(przelew.ilosc_kryptowalut))	
+	return value
+					
 def apiPost(request):
 	if request.is_ajax():
 		q = request.GET.get('term', '')

@@ -18,8 +18,8 @@
 	{% block content2 %}
  
 		
-			<a class="text-center"><a href="{% url 'nowyPrzelew' %}" class="btn btn-primary btn-xs" id="glyphicon glyphicon-pencil" style="font-size: 24px;" ><span class="glyphicon glyphicon-euro"style="height: 0px;"></span>Dodaj przelew</a>
-	
+			<a class="text-center"><a href="{% url 'nowyPrzelew' %}" class="btn btn-primary btn-xs" id="glyphicon glyphicon-pencil" style="font-size: 24px;" >Dodaj przelew</a>
+	<a href="{% url 'pdfgenview' %}" class="btn btn-default "   >Generuj raport </a></td>
 	<br>
 		<br>
 		<div class="table-responsive">
@@ -50,8 +50,10 @@
 				{% endif %}
 			{% endfor %}
 		{% endfor %}
+		
 		</tbody>
 				</table>
+				
 </div >
 		
 			
